@@ -28,4 +28,8 @@
 <link rel="stylesheet" href="../css/magnific-popup.css">
 <!-- Main CSS -->
 <link rel="stylesheet" href="../css/style.css">
+<style>
+    @yield('css')
+</style>
 </head>
+

@@ -10,7 +10,7 @@ class Comment extends Authenticatable
     use Notifiable;
 
     protected $table = 'comments';
-    protected $fillable = [
-        'id', 'content', 'user_id', 'answer_id', 'created_time', 'is_hidden'
-    ];
+    //protected $primaryKey = ['id',];
+    //protected $guarded = ['create_time',];
+    //protected $fillable = ['content', 'user_id', 'answer_id', 'is_hidden'];
 }

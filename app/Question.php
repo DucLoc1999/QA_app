@@ -9,8 +9,8 @@ class Question extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'question';
-    protected $fillable = [
-        'id', 'content', 'session_id', 'asker_id', 'created_time'
-    ];
+    protected $table = 'questions';
+    //protected $primaryKey = ['id',];
+    //protected $guarded = ['create_time',];
+    //protected $fillable = ['content', 'session_id', 'asker_id'];
 }

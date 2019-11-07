@@ -1,7 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+function format_time($time){
+    $str = date_format(date_create($time)," H:i \\n j \\t n, Y");
+    $str = str_replace('n', 'ngày', $str);
+    $str = str_replace('t', 'tháng', $str);
+    $str = str_replace('N', 'năm', $str);
+    $str = str_replace('l', 'lúc', $str);
+    return $str;
+}
+?>
+
 @extends('layout.head')
+@section('css')
+    .featured-responsive {
+    max-width: 25%;
+    }
+
+@stop
+
 <body>
     <!--============================= HEADER =============================-->
     @include('layout.header')
@@ -11,7 +29,7 @@
     <section>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-7 responsive-wrap">
+                <div class="col-md-12 responsive-wrap">
                     <div class="row detail-filter-wrap">
                         <div class="col-md-4 featured-responsive">
                             <div class="detail-filter-text">
@@ -103,100 +121,51 @@
                         </div>
                     </div>
                     <div class="row light-bg detail-options-wrap">
+
+                        <?php $i = 0; ?>
+
+                        @foreach($sessions as $ses)
+                                <?php $i++; ?>
                         <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
                             <div class="featured-place-wrap">
                                 <a href="detail.blade.php">
-                                    <img src="../images/featured1.jpg" class="img-fluid" alt="#">
-                                    <span class="featured-rating-orange ">6.5</span>
+                                    <img src="../images/bg{{$ses->img_id}}.jpg" class="img-fluid" style="height: 300px" alt="#"><!--todo: thay hình ảnh-->
+                                    <!--span class="featured-rating-orange ">6.5</span-->
                                     <div class="featured-title-box">
-                                        <h6>Burger &amp; Lobster</h6>
-                                        <p>Restaurant </p> <span>• </span>
-                                        <p>3 Reviews</p> <span> • </span>
-                                        <p><span>$$$</span>$$</p>
+                                        <h6>{{$ses->topic}}</h6>
                                         <ul>
-                                            <li><span class="icon-location-pin"></span>
-                                                <p>1301 Avenue, Brooklyn, NY 11230</p>
+                                            <li>
+                                                <p>Chủ tọa: {{$ses->auther}}</p>
                                             </li>
-                                            <li><span class="icon-screen-smartphone"></span>
-                                                <p>+44 20 7336 8898</p>
+                                            <li>
+                                                <p>Thời gian mở: {{format_time($ses->create_time)}}</p>
                                             </li>
-                                            <li><span class="icon-link"></span>
-                                                <p>https://burgerandlobster.com</p>
+                                            <li>
+                                                <p>Số câu hỏi: {{$ses->quest_num}}</p>
                                             </li>
 
                                         </ul>
                                         <div class="bottom-icons">
-                                            <div class="closed-now">CLOSED NOW</div>
-                                            <span class="ti-heart"></span>
-                                            <span class="ti-bookmark"></span>
+                                            @if(!is_null($ses->close_time) && time() >= strtotime($ses->close_time))
+                                                <div class="closed-now">CLOSED NOW</div>
+                                                <span>{{format_time($ses->close_time)}}</span>
+                                            @else
+                                                <div class="open-now">OPEN NOW</div>
+                                            <!--span class="ti-heart"></span>
+                                            <span class="ti-bookmark"></span-->
+                                            @endif
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
-                            <div class="featured-place-wrap">
-                                <a href="detail.blade.php">
-                                    <img src="../images/featured2.jpg" class="img-fluid" alt="#">
-                                    <span class="featured-rating-green">9.5</span>
-                                    <div class="featured-title-box">
-                                        <h6>Joe’s Shanghai</h6>
-                                        <p>Restaurant </p> <span>• </span>
-                                        <p>3 Reviews</p> <span> • </span>
-                                        <p><span>$$$</span>$$</p>
-                                        <ul>
-                                            <li><span class="icon-location-pin"></span>
-                                                <p>1301 Avenue, Brooklyn, NY 11230</p>
-                                            </li>
-                                            <li><span class="icon-screen-smartphone"></span>
-                                                <p>+44 20 7336 8898</p>
-                                            </li>
-                                            <li><span class="icon-link"></span>
-                                                <p>https://burgerandlobster.com</p>
-                                            </li>
+                        @endforeach
 
-                                        </ul>
-                                        <div class="bottom-icons">
-                                            <div class="open-now">OPEN NOW</div>
-                                            <span class="ti-heart"></span>
-                                            <span class="ti-bookmark"></span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
-                            <div class="featured-place-wrap">
-                                <a href="detail.blade.php">
-                                    <img src="../images/featured3.jpg" class="img-fluid" alt="#">
-                                    <span class="featured-rating">3.2</span>
-                                    <div class="featured-title-box">
-                                        <h6>Tasty Hand-Pulled Noodles</h6>
-                                        <p>Restaurant </p> <span>• </span>
-                                        <p>3 Reviews</p> <span> • </span>
-                                        <p><span>$$$</span>$$</p>
-                                        <ul>
-                                            <li><span class="icon-location-pin"></span>
-                                                <p>1301 Avenue, Brooklyn, NY 11230</p>
-                                            </li>
-                                            <li><span class="icon-screen-smartphone"></span>
-                                                <p>+44 20 7336 8898</p>
-                                            </li>
-                                            <li><span class="icon-link"></span>
-                                                <p>https://burgerandlobster.com</p>
-                                            </li>
 
-                                        </ul>
-                                        <div class="bottom-icons">
-                                            <div class="closed-now">CLOSED NOW</div>
-                                            <span class="ti-heart"></span>
-                                            <span class="ti-bookmark"></span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+
+
+<!--
                         <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
                             <div class="featured-place-wrap">
                                 <a href="detail.blade.php">
@@ -228,7 +197,8 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+
+-->                    </div>
                 </div>
                 <!--
                 <div class="col-md-5 responsive-wrap map-wrap">

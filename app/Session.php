@@ -9,8 +9,8 @@ class Session extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'session';
-    protected $fillable = [
-        'id', 'topic', 'creator_id', 'password', 'created_time', 'update_time', 'close_time'
-    ];
+    protected $table = 'sessions';
+    //protected $primaryKey = ['id',];
+    //protected $guarded = ['create_time',];
+    //protected $fillable = ['topic', 'creator_id', 'password', 'update_time', 'close_time'];
 }

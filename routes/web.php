@@ -37,6 +37,4 @@ Route::get('/listing/index',function () {
     return view('index');
 });
 
-Route::get('/listing/listing',function () {
-    return view('listing');
-});
+Route::get('/listing/listing','SessionController@secsion_list');

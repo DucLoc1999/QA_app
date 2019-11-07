@@ -10,7 +10,9 @@ class Answer extends Authenticatable
     use Notifiable;
 
     protected $table = 'answers';
-    protected $fillable = [
-        'id', 'content', 'question_id', 'user_id', 'create_time', 'is_hidden'
-    ];
+    //protected $primaryKey = ['id',];
+    //protected $guarded = ['create_time',];
+    //protected $fillable = [ 'content', 'is_hidden', 'question_id', 'user_id',];
+
+
 }

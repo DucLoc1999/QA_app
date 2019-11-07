@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use App\User;
+use App\Session_info;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -15,8 +16,7 @@ class AdminController extends Controller
     }
 
     public function addQuestion(Request $request){
-        if($request['id'].isn)
+        if($request['id'].isn);
     }
-
 
 }
