@@ -122,14 +122,12 @@ function format_time($time){
                     </div>
                     <div class="row light-bg detail-options-wrap">
 
-                        <?php $i = 0; ?>
 
                         @foreach($sessions as $ses)
-                                <?php $i++; ?>
                         <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
                             <div class="featured-place-wrap">
-                                <a href="detail.blade.php">
-                                    <img src="../images/bg{{$ses->img_id}}.jpg" class="img-fluid" style="height: 300px" alt="#"><!--todo: thay hình ảnh-->
+                                <a href="/session/{{$ses->session_id}}">
+                                    <img src="{{$ses['img_url']}}" class="img-fluid" style="height: 300px" alt="#"><!--todo: thay hình ảnh-->
                                     <!--span class="featured-rating-orange ">6.5</span-->
                                     <div class="featured-title-box">
                                         <h6>{{$ses->topic}}</h6>
@@ -138,7 +136,7 @@ function format_time($time){
                                                 <p>Chủ tọa: {{$ses->auther}}</p>
                                             </li>
                                             <li>
-                                                <p>Thời gian mở: {{format_time($ses->create_time)}}</p>
+                                                <p>Thời gian mở: {{format_time($ses->create_at)}}</p>
                                             </li>
                                             <li>
                                                 <p>Số câu hỏi: {{$ses->quest_num}}</p>
@@ -146,9 +144,9 @@ function format_time($time){
 
                                         </ul>
                                         <div class="bottom-icons">
-                                            @if(!is_null($ses->close_time) && time() >= strtotime($ses->close_time))
+                                            @if(!is_null($ses->close_at) && time() >= strtotime($ses->close_at))
                                                 <div class="closed-now">CLOSED NOW</div>
-                                                <span>{{format_time($ses->close_time)}}</span>
+                                                <span>{{format_time($ses->close_at)}}</span>
                                             @else
                                                 <div class="open-now">OPEN NOW</div>
                                             <!--span class="ti-heart"></span>
@@ -162,7 +160,13 @@ function format_time($time){
                         @endforeach
 
 
-
+<form action="session" method="GET">
+    @csrf
+    <input type="text" name="search" value="">
+    <input type="radio" name="soft" value="concerned">
+    <input type="radio" name="soft" value="newest">
+    <button type="submit"></button>
+</form>
 
 
 <!--

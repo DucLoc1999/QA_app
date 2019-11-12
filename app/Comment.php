@@ -12,5 +12,5 @@ class Comment extends Authenticatable
     protected $table = 'comments';
     //protected $primaryKey = ['id',];
     //protected $guarded = ['create_time',];
-    //protected $fillable = ['content', 'user_id', 'answer_id', 'is_hidden'];
+    protected $fillable = ['content', 'user_id', 'answer_id', 'is_hidden'];
 }

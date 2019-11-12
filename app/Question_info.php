@@ -10,4 +10,15 @@ class Question_info extends Model
     use Notifiable;
 
     protected $table = 'question_info';
+/*
+
+quest_id
+session_id
+content
+last_action
+asker
+total_comment
+right_answer
+created_at
+*/
 }

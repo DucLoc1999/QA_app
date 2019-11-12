@@ -12,5 +12,5 @@ class Question extends Authenticatable
     protected $table = 'questions';
     //protected $primaryKey = ['id',];
     //protected $guarded = ['create_time',];
-    //protected $fillable = ['content', 'session_id', 'asker_id'];
+    protected $fillable = ['content', 'session_id', 'asker_id'];
 }

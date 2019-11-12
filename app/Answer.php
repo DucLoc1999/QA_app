@@ -12,7 +12,7 @@ class Answer extends Authenticatable
     protected $table = 'answers';
     //protected $primaryKey = ['id',];
     //protected $guarded = ['create_time',];
-    //protected $fillable = [ 'content', 'is_hidden', 'question_id', 'user_id',];
+    protected $fillable = [ 'content', 'is_hidden', 'question_id', 'user_id', 'right_answer'];
 
 
 }

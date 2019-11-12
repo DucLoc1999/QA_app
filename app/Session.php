@@ -12,5 +12,5 @@ class Session extends Authenticatable
     protected $table = 'sessions';
     //protected $primaryKey = ['id',];
     //protected $guarded = ['create_time',];
-    //protected $fillable = ['topic', 'creator_id', 'password', 'update_time', 'close_time'];
+    protected $fillable = ['topic', 'creator_id', 'password', 'close_time', 'img_id'];
 }

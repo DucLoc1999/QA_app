@@ -38,3 +38,13 @@ Route::get('/listing/index',function () {
 });
 
 Route::get('/listing/listing','SessionController@secsion_list');
+
+Route::middleware(['sessionPassword'])->group(function () {
+    Route::resource('session', 'SessionController');
+    Route::resource('question', 'QuestionController');
+
+    Route::get('answer', 'AnswerController@index');
+    Route::post('answer', 'AnswerController@post');
+    Route::get('comment', 'CommentController@index');
+    Route::post('comment', 'CommentController@create');
+});
