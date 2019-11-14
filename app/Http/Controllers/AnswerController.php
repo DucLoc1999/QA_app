@@ -54,7 +54,7 @@ class AnswerController extends Controller
         return redirect('question/'.$request['question_id']."#answer_".$request['answer_id']);
     }
 
-    function post(Request $request){
+    function postCheck(Request $request){
         if ($request['action'] == 'create') {
             return $this->create($request);
         } elseif ($request['action'] == 'chose_right'){

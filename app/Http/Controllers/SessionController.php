@@ -24,11 +24,11 @@ class SessionController extends Controller
                 $sessions = Session_info::orderBy('last_quest', 'desc')->get();
             }
             if (isset($sessions))
-                return view("listing", compact('sessions'));
+                return view("session/index", compact('sessions'));
         }
 
         $sessions = Session_info::all();
-        return view("listing", compact('sessions'));
+        return view("session/index", compact('sessions'));
     }
 
     public function create()
@@ -83,26 +83,32 @@ class SessionController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Session  $session
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Session $session)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Session  $session
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Session $session)
     {
         //
+    }
+
+    public function checkPassword(Request $request){
+        $request->validate([
+            'session_id' => 'required|',
+            'password' => 'required|max:50',
+        ]);
+        $row = Session::select('password')->where('id', $request['session_id'])->get();
+        if (isset($request['question_id'])){
+            Question::where()->get();
+//todo: check question_id vs ssid
+        }
+        if (count($row)){
+            $password = $row[0]['password'];
+            if ($request['password'] == $password)
+                return view();
+        }
+
+        return back();
     }
 }
