@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
-use App\Question_info;
+use App\QuestionInfo;
 use App\Session;
 use Illuminate\Http\Request;
 
@@ -35,7 +35,7 @@ class AnswerController extends Controller
             'question_id' => 'required',
             'answer_id' => 'required',
         ]);
-        $ses_id = Question_info::where('quest_id', $request['question_id'])->pluck('session_id')->get(0);//['session_id'];
+        $ses_id = QuestionInfo::where('quest_id', $request['question_id'])->pluck('session_id')->get(0);//['session_id'];
 
         $ses_creater = Session::where('id', $ses_id)->pluck('creator_id')->get(0);
 

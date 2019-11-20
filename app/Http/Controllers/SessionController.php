@@ -3,32 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Question;
-use App\Question_info;
+use App\QuestionInfo;
 use App\Session;
-use App\session_img;
-use App\Session_info;
+use App\SessionInfo;
 use App\User;
 use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
-    public function index(Request $request)
-    {
-        if(isset($request['search']) || isset($request['sort'])){
-            if($request['search'] != ""){
-                $sessions = Session_info::where('topic','like','%'.str_replace(' ','%',$request['search']).'%')->get();
+    public function index(Request $request){
+        $query = SessionInfo::query();
+        if(isset($request['search']) && $request['search'] != "") {
+            $query = $query->where('topic', 'like', '%' . str_replace(' ', '%', $request['search']) . '%');
+        } else {
+            if(isset($request['status'])){
+                if ($request['status'] == "close") {
+                    $query = $query->where('close_time', '>','CURRENT_TIMESTAMP');
+                }elseif ($request['status'] == "open") {
+                    $query = $query->where('close_time', '<=','CURRENT_TIMESTAMP')
+                        ->orWhereNull('close_time');
+                    ;
+                }
+
             }
-            elseif ($request['sort'] == "concerned") {
-                $sessions = Session_info::orderBy('quest_num', 'desc')->get();
-            }elseif ($request['sort'] == "newest") {
-                $sessions = Session_info::orderBy('last_quest', 'desc')->get();
+            if (isset($request['sort'])) {
+                if ($request['sort'] == "concerned") {
+                    $query = $query->orderBy('quest_num', 'desc');
+                }elseif ($request['sort'] == "newest") {
+                    $query = $query->orderBy('created_at', 'desc');
+                } else {
+                    $query = $query->orderBy('created_at', 'asc');
+
+                }
             }
-            if (isset($sessions))
-                return view("session/index", compact('sessions'));
         }
 
-        $sessions = Session_info::all();
-        return view("session/index", compact('sessions'));
+        $sessions = $query->get();
+        return view("session/index", compact('sessions', 'request'));
     }
 
     public function create()
@@ -59,7 +70,7 @@ class SessionController extends Controller
     {
 
         $creator_name = User::where('id',$session['creator_id'])->value('name');
-        $query = Question_info::where('session_id', $session['id']);
+        $query = QuestionInfo::where('session_id', $session['id']);
         if(isset($request['search']) || isset($request['sort'])){
             if($request['search'] != ""){
                 $questions = $query->where('content','like','%'.str_replace(' ','%',$request['search']).'%')->get();

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use App\User;
-use App\Session_info;
+use App\QuestionInfo;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller

@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
 function format_time($time){
     $str = date_format(date_create($time)," H:i \\n j \\t n, Y");
@@ -11,148 +8,117 @@ function format_time($time){
     return $str;
 }
 ?>
-
-@extends('layout.head')
+@extends('layout.head_new')
 @section('title')
-question list
+    Danh sách câu hỏi
 @stop
-@section('css')
-    .featured-responsive {
-    max-width: 25%;
-    }
-
-@stop
-
-<body>
-<!--============================= HEADER =============================-->
-@include('layout.header')
-
-<!--//END HEADER -->
-<!--============================= DETAIL =============================-->
-<section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 responsive-wrap">
-                <div class="row detail-filter-wrap">
-                    <div class="col-md-2">
-                        <div class="detail-filter-text">
-                            <p>34 Results For <span>Restaurant</span></p>
-                        </div>
+@section('body')
+    <body>
+    @include('layout.header_bar')
+    <div class="body-qa">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="ask-question col-md-2">
+                    <div class="btn-ask-question row">
+                        <button class="btn btn-danger">
+                            <i style="margin-right: 5px" class="far fa-list-alt"></i> Khảo sát
+                        </button>
                     </div>
-                    <div class="col-md-10">
-                        <div class="detail-filter">
-                            <form action="question" action="GET" class="form-inline md-form form-sm active-cyan active-cyan-2 mt-2" style="display: inline-block">
-                                <i class="fas fa-search"></i>
-                                <input name="search" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
-                                       aria-label="Search">
-                            </form>
-                            <p>Filter by</p>
-                            <form id="sort_form" action="question" action="GET" class="filter-dropdown">
-                                <select name="soft" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect1" onchange="document.getElementById('sort_form').submit()">
-                                    <option selected>Sắp xếp theo</option>
-                                    <option value="concerned">Số bình luận</option>
-                                    <option value="newest">Mới nhất</option>
-                                </select>
-                                <i class="fas fa-sort" onclick="document.getElementById('sort_form').submit()"></i>
-                            </form>
-                        </div>
+                    <div class="btn-ask-question row">
+                        <button class="btn btn-primary">
+                            <i style="margin-right: 5px" class="far fa-plus-square"></i>Thêm câu hỏi</button>
                     </div>
                 </div>
-                <div class="row light-bg detail-options-wrap">
+                <div class="list-question col-md-8">
+                    <div class="filter-question">
+                        <div class="row up-filter">
+                            <h3>Danh sách câu hỏi</h3>
+                        </div>
+                        <div class="row down-amount">
+                            <div class="col-md-4 form">
+                                <form id="search_form" class="form-search" action="{{URL::to('/question')}}" action="GET" class="form-inline md-form form-sm" style="display: inline-block; width: 100%">
+                                    <i class="fas fa-search" style="display: inline; margin-right: 10px"></i>
+                                    <input name="search" class="form-control form-control-sm" style="width: 75%; height: 38px" type="text" placeholder="Tìm kiếm">
 
+                                </form>
 
-                    @foreach($questions as $quest)
-                        <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
-                            <div class="featured-place-wrap">
-                                <a href="/question/{{$quest['quest_id']}}">
-                                    <!--span class="featured-rating-orange ">6.5</span-->
-                                    <div class="featured-title-box">
-                                        <h6>{{$quest['content']}}</h6>
-                                        <ul>
-                                            <li>
-                                                <p>người hỏi: {{$quest['asker']}}</p>
-                                            </li>
-                                            <li>
-                                                <p>Thời gian hỏi: {{format_time($quest['create_at'])}}</p>
-                                            </li>
-                                            <li>
-                                                <p>Số lời bình luận: {{$quest['total_comment']}}</p>
-                                            </li>
+                            </div>
+                            <div class="col-md-8 form">
+                                <form id="filter_form" action="{{URL::to('/question')}}" action="GET" class="filter-dropdown" style="display: inline-block">
+                                    <label>xắp xếp theo: </label>
+                                    <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
+                                        <option value="oldest"> Cũ nhất </option>
+                                        <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
+                                    </select>
+                                    <button class="btn btn-light" type="submit" > Lọc </button>
+                                </form>
 
-                                        </ul>
-                                        <div class="bottom-icons">
-                                            @if($quest['right_answer'] == 1)
-                                                <div class="closed-now">CLOSED NOW</div>
-                                            @else
-                                                <div class="open-now">OPEN NOW</div>
-                                                <!--span class="ti-heart"></span>
-                                                <span class="ti-bookmark"></span-->
-                                            @endif
-                                        </div>
-                                    </div>
-                                </a>
                             </div>
                         </div>
-                @endforeach
+                    </div>
+                    <div class="list-box-question">
+                        <?php $i = 0;?>
+                            @foreach($questions as $quest)
+                            <?php $i++;?>
 
+                            <div id="{{$quest['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
+                                <div class="col-md-12">
+                                    <a href="{{URL::to('/question/'.$quest['quest_id'])}}" >
+                                        <div class="content-box">
+                                            <strong>{{$quest['content']}}</strong>
+                                        </div>
+                                    </a>
+                                    <div class="user-post row">
+                                        <img src="" alt="">
+                                        <p>Người hỏi: {{$quest['asker']}}</p>
+                                        <p>Thời gian: {{format_time($quest['created_at'])}}</p>
+                                        <p>Số lời trả lời và bình luận: {{$quest['total_comment']}}</p>
+                                    </div>
+                                    <div class="user-post row">
+                                        <p class="question"> CÂU HỎI </p>
+                                    </div>
+                                </div>
+                            </div>
 
+                            @endforeach
+                    </div>
+                </div>
+                <div class="col-md-2 detail-state">
+                    <div class="total-question" style="text-align: center">
+                        <b>Số lượng câu hỏi</b><br>
+                        <strong>{{count($questions)}}</strong>
+                    </div>
+                </div>
 
-
-                <!--
-                                            <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
-                                                <div class="featured-place-wrap">
-                                                    <a href="detail.blade.php">
-                                                        <img src="../images/featured4.jpg" class="img-fluid" alt="#">
-                                                        <span class="featured-rating-green">9.5</span>
-                                                        <div class="featured-title-box">
-                                                            <h6>Pizza - Cicis</h6>
-                                                            <p>Restaurant </p> <span>• </span>
-                                                            <p>3 Reviews</p> <span> • </span>
-                                                            <p><span>$$$</span>$$</p>
-                                                            <ul>
-                                                                <li><span class="icon-location-pin"></span>
-                                                                    <p>1301 Avenue, Brooklyn, NY 11230</p>
-                                                                </li>
-                                                                <li><span class="icon-screen-smartphone"></span>
-                                                                    <p>+44 20 7336 8898</p>
-                                                                </li>
-                                                                <li><span class="icon-link"></span>
-                                                                    <p>https://burgerandlobster.com</p>
-                                                                </li>
-
-                                                            </ul>
-                                                            <div class="bottom-icons">
-                                                                <div class="closed-now">CLOSED NOW</div>
-                                                                <span class="ti-heart"></span>
-                                                                <span class="ti-bookmark"></span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                    -->                    </div>
             </div>
         </div>
     </div>
-</section>
-<!--//END DETAIL -->
-<!--============================= FOOTER =============================-->
-@include('layout.footer')
-<!--//END FOOTER -->
 
 
+    </body>
+@stop
 
-
-<!-- jQuery, Bootstrap JS. -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="../js/jquery-3.2.1.min.js"></script>
-<script src="../js/popper.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-
-
-<!-- Map JS (Please change the API key below. Read documentation for more info) -->
-<!--<script src="https://maps.googleapis.com/maps/api/js?callback=myMap&key=AIzaSyDMTUkJAmi1ahsx9uCGSgmcSmqDTBF9ygg"></script>-->
-</body>
-
-</html>
+@section('script')
+    <script>
+        $(document).ready(function(){
+            $('.login-register').click(function () {
+                $('.register').removeClass('show-register');
+                $('.login').addClass('show-login');
+                $('.bg-cover').addClass('show-bg-cover');
+                $('body').addClass('stop-scrolling');
+            });
+            $('#sign-up-here').click(function () {
+                $('.login').removeClass('show-login');
+                $('.register').addClass('show-register');
+            });
+            $('#login-here').click(function () {
+                $('.login').addClass('show-login');
+                $('.register').removeClass('show-register');
+            });
+            $('.display').click(function () {
+                $('.bg-cover').removeClass('show-bg-cover');
+                $('body').removeClass('stop-scrolling');
+            })
+        });
+    </script>
+@endsection

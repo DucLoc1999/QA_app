@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Session_info extends Model
+class SessionInfo extends Model
 {
     use Notifiable;
 

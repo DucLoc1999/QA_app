@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Answer;
 use App\Comment;
 use App\Question;
-use App\Question_info;
+use App\QuestionInfo;
+use App\Survey;
+use App\SurveyStatistic;
 use App\User;
 use Illuminate\Http\Request;
 use function Sodium\add;
@@ -15,25 +17,23 @@ class QuestionController extends Controller
 
     public function index(Request $request)
     {
-        if(isset($request['search']) || isset($request['sort'])){
-            if($request['search'] != ""){
-                $questions = Question_info::where('content','like','%'.str_replace(' ','%',$request['search']).'%')->get();
-            }
-            elseif ($request['sort'] == "concerned") {
-                $questions = Question_info::orderBy('total_comment', 'desc')->get();
-            }elseif ($request['sort'] == "newest") {
-                $questions = Question_info::orderBy('last_action', 'desc')->get();
-            }elseif ($request['sort'] == "oldest") {
-                $questions = Question_info::orderBy('last_action', 'asc')->get();
-            }
+        $query = QuestionInfo::query();
 
-            if (isset($questions))
-                return view("question\question_list", compact('questions'));
+        if(isset($request['search']) && $request['search'] != "") {
+            $query = $query->where('content', 'like', '%' . str_replace(' ', '%', $request['search']) . '%');
+        } else {
+            if (isset($request['sort'])) {
+                if ($request['sort'] == "newest") {
+                    $query = $query->orderBy('created_at', 'desc');
+                } else {
+                    $query = $query->orderBy('created_at', 'asc');
+
+                }
+            }
         }
 
-        $questions = Question_info::all();
+        $questions = $query->get();
         return view("question\question_list", compact('questions'));
-
     }
 
     public function create()
