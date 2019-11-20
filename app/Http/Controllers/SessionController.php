@@ -13,28 +13,26 @@ class SessionController extends Controller
 {
     public function index(Request $request){
         $query = SessionInfo::query();
+        if(isset($request['status'])){
+            if ($request['status'] == "close") {
+                $query = $query->where('close_time', '>','CURRENT_TIMESTAMP');
+            }elseif ($request['status'] == "open") {
+                $query = $query->where('close_time', '<=','CURRENT_TIMESTAMP')
+                    ->orWhereNull('close_time');
+                ;
+            }
+        }
         if(isset($request['search']) && $request['search'] != "") {
             $query = $query->where('topic', 'like', '%' . str_replace(' ', '%', $request['search']) . '%');
-        } else {
-            if(isset($request['status'])){
-                if ($request['status'] == "close") {
-                    $query = $query->where('close_time', '>','CURRENT_TIMESTAMP');
-                }elseif ($request['status'] == "open") {
-                    $query = $query->where('close_time', '<=','CURRENT_TIMESTAMP')
-                        ->orWhereNull('close_time');
-                    ;
-                }
+        }
+        if (isset($request['sort'])) {
+            if ($request['sort'] == "concerned") {
+                $query = $query->orderBy('quest_num', 'desc');
+            }elseif ($request['sort'] == "newest") {
+                $query = $query->orderBy('created_at', 'desc');
+            } else {
+                $query = $query->orderBy('created_at', 'asc');
 
-            }
-            if (isset($request['sort'])) {
-                if ($request['sort'] == "concerned") {
-                    $query = $query->orderBy('quest_num', 'desc');
-                }elseif ($request['sort'] == "newest") {
-                    $query = $query->orderBy('created_at', 'desc');
-                } else {
-                    $query = $query->orderBy('created_at', 'asc');
-
-                }
             }
         }
 
@@ -63,7 +61,6 @@ class SessionController extends Controller
         ]);
         //$req = Request::create("","GET",[array("_token" => $request->_token, 'sort'=>'newest')]);
         return redirect('session?sort=newest');
-            //->with('success','Item created successfully');
     }
 
     public function show(Session $session, Request $request)
@@ -71,20 +68,23 @@ class SessionController extends Controller
 
         $creator_name = User::where('id',$session['creator_id'])->value('name');
         $query = QuestionInfo::where('session_id', $session['id']);
-        if(isset($request['search']) || isset($request['sort'])){
-            if($request['search'] != ""){
-                $questions = $query->where('content','like','%'.str_replace(' ','%',$request['search']).'%')->get();
-            }
-            elseif ($request['sort'] == "concerned") {
-                $questions = $query->orderBy('total_comment', 'desc')->get();
+
+        if(isset($request['search']) && $request['search'] != "") {
+            $query = $query->where('content', 'like', '%' . str_replace(' ', '%', $request['search']) . '%');
+        }
+
+        if(isset($request['sort'])){
+            if ($request['sort'] == "concerned") {
+                $query = $query->orderBy('total_comment', 'desc');
             }elseif ($request['sort'] == "newest") {
-                $questions = $query->orderBy('last_action', 'desc')->get();
+                $query = $query->orderBy('created_at', 'desc');
+            }else {
+                $query = $query->orderBy('created_at', 'asc');
             }
         }
 
-        if(!isset($questions)){
-            $questions = $query->get();
-        }
+        $questions = $query->get();
+
 
         return view("session/session_page", compact('session', 'creator_name', 'questions'));
     }

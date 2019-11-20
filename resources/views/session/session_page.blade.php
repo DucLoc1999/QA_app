@@ -47,26 +47,27 @@ function format_time($time){
                             <h3>Danh sách câu hỏi</h3>
                         </div>
                         <div class="row down-amount">
-                            <div class="col-md-4 form">
-                                <form id="search_form" class="form-search" action="{{URL::to('/question')}}" action="GET" class="form-inline md-form form-sm" style="display: inline-block; width: 100%">
+                            <form class="row form-inline md-form form-sm" action="{{URL::to('/session/'.$session['id'])}}" method="GET" style="width: 100%; margin: 1px 0px 0px 0px">
+                                <div class="col-md-4 form search-form">
                                     <i class="fas fa-search" style="display: inline; margin-right: 10px"></i>
                                     <input name="search" class="form-control form-control-sm" style="width: 75%; height: 38px" type="text" placeholder="Tìm kiếm">
 
-                                </form>
 
-                            </div>
-                            <div class="col-md-8 form">
-                                <form id="filter_form" action="{{URL::to('/question')}}" action="GET" class="filter-dropdown" style="display: inline-block">
+                                </div>
+                                <div class="col-md-7 form filter_form">
                                     <label>xắp xếp theo: </label>
                                     <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
                                         <option value="oldest"> Cũ nhất </option>
                                         <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
                                     </select>
-                                    <button class="btn btn-light" type="submit" > Lọc </button>
-                                </form>
 
-                            </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-light" type="submit" > Lọc </button>
+                                </div>
+                            </form>
                         </div>
+
                     </div>
                     <div class="list-box-question">
                         <?php $i = 0;?>

@@ -20,7 +20,7 @@ class checkSessionPassword
 
         if (isset($path_arr[2])) {
             $ses = Session::select('creator_id', 'password')->where('id', $path_arr[2])->get()[0];
-            if (/*Auth::id*/ 1 != $ses['creator_id'] /*Auth::[session_list]*/){
+            if (/*Auth::id*/ 2 != $ses['creator_id'] /*Auth::[session_list]*/){
                 $session_id = $path_arr[2];
                 return redirect('session/'.$session_id.'/0/check_password');
             }

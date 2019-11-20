@@ -143,7 +143,7 @@ ul.state-question {
 
 
 .row.down-amount {
-    padding: 0;
+    padding: 16px 0px;
     border-left: 1px solid #aab6ca;
     border-bottom: 1px solid #aab6ca;
     border-right: 1px solid #aab6ca;
@@ -338,16 +338,7 @@ p.user-badge {
     display: block;
     visibility: visible;
 }
-input#email-login,input#email-register,input#name{
-    background: none;
-    border: none;
-    outline: none;
-    width: 80%;
-    border-bottom: 1px solid #999;
-    padding: 2px 30px;
-    box-sizing: border-box;
-    margin-bottom: 6%;
-}
+
 .password {
     position: relative;
     margin-bottom: 5%;
@@ -536,19 +527,15 @@ form .custom-select {
 }
 
 .form {
-    padding-top: 17px;
+    padding-top: 17px 0px;
 }
 
-.form form{
-    width: 100%;
-}
 
-.form *{
+.form{
     display: inline-block;
 }
-#filter_form {
+.filter_form {
     text-align: right;
-
 }
 
 .question {
@@ -590,7 +577,16 @@ h3 {
 }
 
 .exit-room {
-    text-align: center;
+    text-align: right;
     padding: 25px 25px;
     height: 100%;
+}
+
+.card {
+    margin-top: 48px;
+}
+
+.form label {
+    display: inline;
+    margin: 0px 5px 0px 10px;
 }

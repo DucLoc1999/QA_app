@@ -1,6 +1,10 @@
-@extends('layouts.app')
+@extends('layout.head_new')
 
-@section('content')
+@section('title')
+    QA_app home
+@endsection
+
+@section('body')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

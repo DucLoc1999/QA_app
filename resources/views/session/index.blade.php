@@ -13,7 +13,7 @@ function format_time($time){
     Danh sách phiên hỏi đáp
     @stop
 @section('body')
-<body>
+
 @include('layout.header_bar')
    <div class="body-qa">
        <div class="container-fluid">
@@ -29,15 +29,14 @@ function format_time($time){
                                <h3>Danh sách phiên hỏi đáp</h3>
                        </div>
                        <div class="row down-amount">
-                           <div class="col-md-4 form">
-                               <form id="search_form" class="form-search" action="{{URL::to('/session')}}" action="GET" class="form-inline md-form form-sm" style="display: inline-block; width: 100%">
+                           <form class="row form-inline md-form form-sm" action="{{URL::to('/session')}}" method="GET" style="width: 100%; margin: 1px 0px 0px 0px">
+                           <div class="col-md-4 form search-form">
                                    <i class="fas fa-search" style="display: inline; margin-right: 10px"></i>
                                    <input name="search" class="form-control form-control-sm" style="width: 75%; height: 38px" type="text" placeholder="Tìm kiếm">
-                               </form>
+
 
                            </div>
-                           <div class="col-md-8 form">
-                                   <form id="filter_form" action="{{URL::to('/session')}}" action="GET" class="filter-dropdown" style="display: inline-block">
+                           <div class="col-md-7 form filter_form">
                                        <label>Trạng thái: </label>
                                        <select name="status" class="custom-select mb-2 mr-sm-2 mb-sm-0" >
                                            <option value="all" > Tất cả </option>
@@ -51,10 +50,12 @@ function format_time($time){
                                            <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
                                            <option value="concerned" {{(isset($request['sort']) && $request['sort'] == "concerned") ? "selected" : ""}}> Nhiều bình luận </option>
                                        </select>
-                                       <button class="btn btn-light" type="submit" > Lọc </button>
-                                   </form>
 
                            </div>
+                               <div class="col-md-1">
+                               <button class="btn btn-light" type="submit" > Lọc </button>
+                               </div>
+                           </form>
                        </div>
                    </div>
                    <div class="list-box-question">
@@ -102,7 +103,7 @@ function format_time($time){
    </div>
 
 
-</body>
+
 @stop
 
 @section('script')
