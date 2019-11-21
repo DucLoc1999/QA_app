@@ -20,7 +20,10 @@ function format_time($time){
            <div class="row">
                <div class="ask-question col-md-2">
                    <div class="btn-ask-question row">
-                       <button class="btn btn-primary"><i style="margin-right: 5px" class="far fa-plus-square"></i>Thêm phiên hỏi đáp</button>
+                       <a class="btn btn-primary" href="{{URL::to('/session/create')}}">
+                           <i style="margin-right: 5px" class="far fa-plus-square"></i>
+                           Thêm phiên hỏi đáp
+                       </a>
                    </div>
                </div>
                <div class="list-question col-md-8">
@@ -65,7 +68,7 @@ function format_time($time){
 
                                <div id="{{$ses['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
                            <div class="col-md-12">
-                               <a href="/session/{{$ses['session_id']}}" >
+                               <a style="display: block;margin-left: -5px;" href="/session/{{$ses['session_id']}}" >
                                <div class="content-box">
                                    <strong>{{$ses['topic']}}</strong>
                                </div>

@@ -116,12 +116,11 @@ ul.state-question {
 }
 .row.up-filter {
     /* width: 102%; */
-    padding: 5px;
+    padding: 5px 15px;
     border-left: 1px solid #aab6ca;
     border-bottom: 1px solid #aab6ca;
     border-right: 1px solid #aab6ca;
     color: #6F7D95;
-    padding-left: 10px;
 }
 
 .filter-question{
@@ -576,9 +575,13 @@ h3 {
     height: 34px;
 }
 
+a.btn {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
 .exit-room {
     text-align: right;
-    padding: 25px 25px;
+    padding: 15px 25px;
     height: 100%;
 }
 
@@ -590,3 +593,7 @@ h3 {
     display: inline;
     margin: 0px 5px 0px 10px;
 }
+.filter_form {
+    padding: 0px;
+}
+

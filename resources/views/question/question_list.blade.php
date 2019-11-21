@@ -25,8 +25,10 @@ function format_time($time){
                         </button>
                     </div>
                     <div class="btn-ask-question row">
-                        <button class="btn btn-primary">
-                            <i style="margin-right: 5px" class="far fa-plus-square"></i>Thêm câu hỏi</button>
+                        <a class="btn btn-primary" href="{{URL::to('/question/create')}}">
+                            <i style="margin-right: 5px" class="far fa-plus-square"></i>
+                            Thêm câu hỏi
+                        </a>
                     </div>
                 </div>
                 <div class="list-question col-md-8">

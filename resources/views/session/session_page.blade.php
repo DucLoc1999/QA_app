@@ -20,13 +20,16 @@ function format_time($time){
             <div class="row">
                 <div class="ask-question col-md-2">
                     <div class="btn-ask-question row">
-                        <button class="btn btn-info">
-                            <i style="margin-right: 5px" class="far fa-list-alt"></i> Khảo sát
-                        </button>
+                        <a class="btn btn-info" href="{{URL::to('/session/'.$session['id'].'/survey')}}">
+                            <i style="margin-right: 5px" class="far fa-list-alt"></i>
+                            Khảo sát
+                        </a>
                     </div>
                     <div class="btn-ask-question row">
-                        <button class="btn btn-primary">
-                            <i style="margin-right: 5px" class="far fa-plus-square"></i>Thêm câu hỏi</button>
+                        <a class="btn btn-primary" href="{{URL::to('/question/create')}}">
+                            <i style="margin-right: 5px" class="far fa-plus-square"></i>
+                            Thêm câu hỏi
+                        </a>
                     </div>
                 </div>
                 <div class="list-question col-md-8">
@@ -76,7 +79,7 @@ function format_time($time){
 
                             <div id="{{$quest['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
                                 <div class="col-md-12">
-                                    <a href="{{URL::to('/question/'.$quest['quest_id'])}}" >
+                                    <a style="display: block;margin-left: -5px;" href="{{URL::to('/question/'.$quest['quest_id'])}}" >
                                         <div class="content-box">
                                             <strong>{{$quest['content']}}</strong>
                                         </div>

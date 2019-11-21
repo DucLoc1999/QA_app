@@ -8,9 +8,12 @@ use App\Session;
 use App\SessionInfo;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class SessionController extends Controller
 {
+
     public function index(Request $request){
         $query = SessionInfo::query();
         if(isset($request['status'])){
@@ -51,21 +54,21 @@ class SessionController extends Controller
             'topic' => 'required|max:100',
             'password' => 'max:50',
         ]);
-// check auth -> creator_id
-        Session::create([
-            'topic'=>$request['topic'],
-                'creator_id'=>$request['creator_id'],
+        if (Auth::check()){
+            Session::create([
+                'topic'=>$request['topic'],
+                'creator_id'=>Auth::id(),
                 'password'=>$request['password'],
                 'close_time'=>$request['close_time'],
                 'img_id'=>strval(rand(1,13)),
-        ]);
+            ]);
+        }
         //$req = Request::create("","GET",[array("_token" => $request->_token, 'sort'=>'newest')]);
         return redirect('session?sort=newest');
     }
 
     public function show(Session $session, Request $request)
     {
-
         $creator_name = User::where('id',$session['creator_id'])->value('name');
         $query = QuestionInfo::where('session_id', $session['id']);
 
@@ -109,15 +112,34 @@ class SessionController extends Controller
             'session_id' => 'required|',
             'password' => 'required|max:50',
         ]);
-        $row = Session::select('password')->where('id', $request['session_id'])->get();
-        if (isset($request['question_id'])){
+
+        $ses = Session::where('id', $request['session_id'])->get();
+        if (count($ses) == 1)
+            $session = $ses[0];
+        else
+            return back();
+
+        /*if (isset($request['question_id'])){
             Question::where()->get();
 //todo: check question_id vs ssid
-        }
-        if (count($row)){
-            $password = $row[0]['password'];
-            if ($request['password'] == $password)
-                return view();
+        }*/
+
+        if (isset($session['password']) && $session['password'] != '') {
+            if (Auth::check()) {
+                if (Auth::id() == $session['creator_id'] || $request['password'] == $session['password']){
+                    User::where('id', Auth::id())
+                        ->update([
+                            'current_session' => $request['session_id']
+                        ]);
+                    return redirect('session/'.$session['id']);
+                } else {
+                    return back();
+                }
+            } else {
+                redirect('\login'); // todo: charge sesson -> login
+            }
+        } else {
+            return redirect('session/'.$session['id']);
         }
 
         return back();

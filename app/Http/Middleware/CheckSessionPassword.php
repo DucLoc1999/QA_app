@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Session;
+use App\User;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 class checkSessionPassword
@@ -15,14 +17,30 @@ class checkSessionPassword
      * @param \Closure $next
      * @return mixed
      */
+    function checkAuthCurrentSession($auth_id, $session_id){
+        $current_session = User::select('current_session')->where('id', strval($auth_id))->get()[0];
+
+        if ($current_session['current_session'] == $session_id) {
+            return true;
+        }
+        else
+            return false;
+    }
 
     function session($path_arr, $request, Closure $next){
-
         if (isset($path_arr[2])) {
             $ses = Session::select('creator_id', 'password')->where('id', $path_arr[2])->get()[0];
-            if (/*Auth::id*/ 2 != $ses['creator_id'] /*Auth::[session_list]*/){
-                $session_id = $path_arr[2];
-                return redirect('session/'.$session_id.'/0/check_password');
+            if (isset($ses['password']) && $ses['password'] != '') {
+                if (Auth::check() && !$this->checkAuthCurrentSession(Auth::id(), $path_arr[2])) {
+                    if (strval(Auth::id()) != $ses['creator_id'] ) {
+                        $session_id = $path_arr[2];
+                        return redirect('session/' . $session_id . '/0/check_password');
+                    } else {
+                        return $next($request);
+                    }
+                } else {
+                    redirect('\login'); // todo: charge sesson -> login
+                }
             }
         }
         return $next($request);
@@ -50,7 +68,6 @@ class checkSessionPassword
         $path = $request->getPathInfo();
         $arr = explode("/", $path);
         if ($arr[1] == "session"){
-
             return $this->session($arr, $request, $next);
         } elseif ($arr[1] == "question"){
             return $this->question($arr, $request, $next);
