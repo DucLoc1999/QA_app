@@ -19,12 +19,14 @@ function format_time($time){
        <div class="container-fluid">
            <div class="row">
                <div class="ask-question col-md-2">
+                   @if(isset($role) && $role == 'teacher')
                    <div class="btn-ask-question row">
                        <a class="btn btn-primary" href="{{URL::to('/session/create')}}">
                            <i style="margin-right: 5px" class="far fa-plus-square"></i>
                            Thêm phiên hỏi đáp
                        </a>
                    </div>
+                   @endauth
                </div>
                <div class="list-question col-md-8">
                    <div class="filter-question">

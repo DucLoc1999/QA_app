@@ -54,6 +54,7 @@ Route::get('question/{question}/edit', 'QuestionController@edit');
 
 Route::middleware(['checkSessionPassword'])->group(function () {
     Route::get('session/{session}', 'SessionController@show');
+    Route::get('session/{session}/survey', 'SessionController@showSurvey');
     Route::get('question', 'QuestionController@index');
     Route::get('question/{question}', 'QuestionController@show');
     Route::post('answer', 'AnswerController@postCheck');

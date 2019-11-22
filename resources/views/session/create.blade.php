@@ -5,7 +5,7 @@
 
     <form method="POST" action="{{URL::to('/session')}}" style="height: 100%; width: 100%">
         @csrf
-
+        <input type="hidden" name="action">
         <input name="creator_id" type="number">
         <input name="topic" type="text">
         <input name="password" type="text">

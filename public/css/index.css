@@ -1,12 +1,19 @@
 body{
     font-family: 'Lato', sans-serif;
-
-
 }
+
 .body-qa{
     z-index: -99;
-
+    min-height: 100%;
 }
+
+.body-qa .container-fluid>.row {
+    min-height: 100%;
+}
+
+.container-fluid .row{
+}
+
 .btn-primary {
     color: #fff;
     background-color: #3498db;
@@ -84,7 +91,10 @@ ul.state-question {
     top: 15%;
 }
 .list-question{
-    width: 99%;
+    min-height: 100%;
+    border-left: 1px solid #aab6ca;
+    border-right: 1px solid #aab6ca;
+    padding-right: 0px;
 }
 .state-question{
     list-style: none;
@@ -117,9 +127,7 @@ ul.state-question {
 .row.up-filter {
     /* width: 102%; */
     padding: 5px 15px;
-    border-left: 1px solid #aab6ca;
     border-bottom: 1px solid #aab6ca;
-    border-right: 1px solid #aab6ca;
     color: #6F7D95;
 }
 
@@ -143,9 +151,7 @@ ul.state-question {
 
 .row.down-amount {
     padding: 16px 0px;
-    border-left: 1px solid #aab6ca;
     border-bottom: 1px solid #aab6ca;
-    border-right: 1px solid #aab6ca;
     color: #6F7D95;
 }
 .box-question{
@@ -525,10 +531,6 @@ form .custom-select {
     max-width: 150px;
 }
 
-.form {
-    padding-top: 17px 0px;
-}
-
 
 .form{
     display: inline-block;
@@ -561,9 +563,7 @@ input[type="radio"], input[type="checkbox"] {
     height: 117px;
     margin-right: 0px;
     margin-left: -15px;
-    border-left: 1px solid #aab6ca;
     border-bottom: 1px solid #aab6ca;
-    border-right: 1px solid #aab6ca;
     padding: 10px 0px;
     color: #0c5460;
 }

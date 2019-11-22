@@ -8,10 +8,10 @@
     </title>
 
     <!-- bootstrap -->
-    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="{{URL::to('/')}}/css/bootstrap.css">
 
     <!-- css -->
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="{{URL::to('/')}}/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Salsa" />
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
         <div class="col-md-12 login"><!-- col-md-9 Begin -->
             <div class="row">
                 <div class="col-sm-6 img-login">
-                    <img class="img-responsive" src="../img/signin-image.jpg"/></div>
+                    <img class="img-responsive" src="{{URL::to('/')}}/img/signin-image.jpg"/></div>
                 <div class="col-sm-6">
                     <h2 id="signup">Sign In</h2>
                     <form method="post" action="#">
@@ -85,7 +85,7 @@
                     </form>
                 </div>
                 <div class="col-sm-6 register-img">
-                    <img class="img-responsive" src="../img/signup-image.jpg">
+                    <img class="img-responsive" src="{{URL::to('/')}}/img/signup-image.jpg">
                 </div>
             </div>
         </div>
@@ -96,7 +96,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/c567c646bc.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="../js/bootstrap.js"></script>
+<script src="{{URL::to('/')}}/js/bootstrap.js"></script>
     @yield('script')
 </body>
 </html>

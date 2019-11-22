@@ -9,6 +9,7 @@ use App\SurveyOption;
 use App\SurveyStatistic;
 use App\Vote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
@@ -72,27 +73,36 @@ class SurveyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    function vote($session_id, $survey_vote){
+        foreach ($survey_vote as $survey_id => $option) {
+            $query = Vote::where('survey_id', $survey_id)
+                ->where('user_id', Auth::id());
+
+            if (count($query->get()) == 1) {
+                $query->update(['vote' => $option]);
+            } else {
+                Vote::create([
+                    "survey_id" => $survey_id,
+                    "vote" => $option,
+                    "user_id" => Auth::id()
+                ]);
+            }
+        }
+        return back();
+    }
+
     public function store(Request $request)
     {
         if(isset($request['action']) && $request['action'] == 'vote'){
-            $request->validate([
-                'survey_id' => 'required',
-                'vote' => 'required',
-            ]);
-            // check suther id
-            $vote = Vote::where('survey_id', $request['survey_id'])
-                ->where('user_id', 3 /*auther*/);
-
-            if (isset($vote)){
-                $vote->update(['vote' => $request['vote']]);
-            } else {
-                Vote::creat([
-                    "survey_id" => $request['survey_id'],
-                    "vote" => $request['vote'],
-                    "user_id" => $request['user_id']
-                ]);
+            $survey_vote = [];
+            foreach ($request->except('_token') as $key => $value){
+                if (preg_match('/survey_\d+_vote/', $key) == 1){
+                    $array = preg_split('/_/', $key);
+                    $survey_vote[$array[1]] = $value;
+                    echo $array[1].' => '.$value."\n";
+                }
             }
-            return redirect('/survey#survey_'.$request['survey_id']);
+            return $this->vote($request['session_id'], $survey_vote);
         }
 
         return back();
