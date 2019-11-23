@@ -15,8 +15,27 @@
             </div>
 
 
-                <div class="col-md-2 login-register">
-                    <button class="btn btn-contact" href="#">Đăng nhập - Đăng ký</button>
+                <div class="col-md-2 ">
+
+                    @if(!Auth::check())
+                    <button class="login-register btn btn-contact" href="#">Đăng nhập - Đăng ký</button>
+
+                        @else
+                            <a class="btn btn-danger" type="button" href="#">
+                                {{Auth::user()->name}}                            </a>
+                            <a class="btn btn-danger" type="button"
+                               href="{{ route('logout') }}"                                        onclick="event.preventDefault();
+
+                               document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                                >
+                                logout
+                            </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
+                    @endif
                 </div>
 
         </div>

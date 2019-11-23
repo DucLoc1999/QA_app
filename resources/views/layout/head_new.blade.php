@@ -96,7 +96,31 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/c567c646bc.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script src="{{URL::to('/')}}/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.login-register').click(function () {
+            $('.register').removeClass('show-register');
+            $('.login').addClass('show-login');
+            $('.bg-cover').addClass('show-bg-cover');
+            $('body').addClass('stop-scrolling');
+        });
+        $('#sign-up-here').click(function () {
+            $('.login').removeClass('show-login');
+            $('.register').addClass('show-register');
+        });
+        $('#login-here').click(function () {
+            $('.login').addClass('show-login');
+            $('.register').removeClass('show-register');
+        });
+        $('.display').click(function () {
+            $('.bg-cover').removeClass('show-bg-cover');
+            $('body').removeClass('stop-scrolling');
+        })
+    });
+</script>
+
     @yield('script')
 </body>
 </html>

@@ -93,6 +93,9 @@ class SurveyController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         if(isset($request['action']) && $request['action'] == 'vote'){
             $survey_vote = [];
             foreach ($request->except('_token') as $key => $value){
