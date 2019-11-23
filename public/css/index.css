@@ -518,6 +518,15 @@ a:hover{
     text-decoration:none;
 }
 
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    /*appearance: button;*/
+
+    text-decoration: none;
+    color: initial;
+}
+
 .closed-now {
     color: #ff3a6d;
     font-weight: 400;
@@ -597,3 +606,23 @@ a.btn {
     padding: 0px;
 }
 
+.hover-blue {
+    color: yellowgreen;
+}
+.hover-blue:hover {
+    color: dodgerblue;
+    cursor: pointer;
+}
+
+.statistic {
+    border-bottom-width: 1px;
+    border-bottom-color: forestgreen;
+    border-bottom-style: dotted;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.statistic>label {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}

@@ -12,10 +12,8 @@ class SurveyStatistic extends Model
     protected $table = 'survey_statistic';
 /*
 survey_id
-asker_id
-question
 option_num
-option_content
+content
 total_vote
 */
 }

@@ -10,7 +10,7 @@ class Survey extends Model
     use Notifiable;
 
     protected $table = 'surveys';
-    protected $fillable = ['content', 'asker_id', 'sesion_id',];
+    protected $fillable = ['content', 'asker_id', 'session_id',];
 /*
  *
 id

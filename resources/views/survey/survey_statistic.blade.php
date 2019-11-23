@@ -10,7 +10,7 @@ function format_time($time){
 ?>
 @extends('layout.head_new')
 @section('title')
-    Danh sách khảo sát
+    Thống kê khảo sát
 @stop
 @section('body')
     @include('layout.header_bar')
@@ -19,9 +19,9 @@ function format_time($time){
             <div class="row">
                 <div class="ask-question col-md-2">
                     <div class="btn-ask-question row" >
-                        <a class="btn btn-info" href="{{URL::to('/session/'.$session['id'])}}">
-                            <i style="margin-right: 5px" class="far fa-question-circle"></i>
-                            Câu hỏi
+                        <a class="btn btn-info" href="{{URL::to('/session/'.$session['id'].'/survey')}}">
+                            <i style="margin-right: 5px" class="far fa-list-alt"></i>
+                            Khảo sát
                         </a>
                     </div>
                     <div class="btn-ask-question row">
@@ -30,14 +30,6 @@ function format_time($time){
                             Thêm khảo sát
                         </a>
                     </div>
-                    @if(count($surveys) > 0)
-                        <div class="btn-ask-question row">
-                            <a class="btn btn-secondary" href="{{URL::to('/session/'.$session['id'].'/survey_statistic')}}">
-                                <i style="margin-right: 5px" class="far fa-chart-bar"></i>
-                                Xem thống kê
-                            </a>
-                        </div>
-                    @endif
                 </div>
                 <div class="list-question col-md-8">
                     <div class="main-content row">
@@ -63,12 +55,6 @@ function format_time($time){
                                     <input name="search" class="form-control form-control-sm" style="width: 75%; height: 38px" type="text" placeholder="Tìm kiếm">
                                 </div>
                                 <div class="col-md-7 form filter_form">
-                                    <label>Tình trạng: </label>
-                                    <select name="status" class="custom-select mb-2 mr-sm-2 mb-sm-0" >
-                                        <option value="all" > Tất cả </option>
-                                        <option value="checked" {{(isset($request['status']) && $request['status'] == "checked") ? "selected" : ""}} > Đã làm </option>
-                                        <option value="unchecked" {{(isset($request['status']) &&$request['status'] == "unchecked") ? "selected" : ""}}> Chưa làm </option>
-                                    </select>
 
                                     <label>xắp xếp theo: </label>
                                     <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
@@ -85,10 +71,6 @@ function format_time($time){
 
                     </div>
                     <div class="list-box-question">
-                        <form action="{{URL::to('/survey')}}" method="POST">
-                            @csrf
-                            <input type="hidden" name="action" value="vote">
-                            <input type="hidden" name="session_id" value="{{$session['id']}}}">
                             <?php $i = 0;?>
                             @foreach($surveys as $sur)
                                 <?php $i++;?>
@@ -100,9 +82,23 @@ function format_time($time){
                                         </div>
 
                                         @foreach($sur_options[$sur['id']] as $so)
-                                            <input class="custom-radio" type="radio" name="survey_{{$sur['id']}}_vote" value="{{$so['option_num']}}" {{isset($so['checked']) ? 'checked':''}}><label> {{$so['content']}} </label><br>
+                                            <div class="row statistic">
+                                            <label class="col-md-6" > {{$so['content']}} </label>
+                                            <label class="col-md-3" >
+                                                Số Lượt bình chọn: {{$so['total_vote']}}
+                                            </label>
+                                            <label class="col-md-2">
+                                                Tỷ lệ: {{round(100*$so['total_vote']/$sur['total_vote'], 1)}} %
+                                            </label><br>
+                                            </div>
                                         @endforeach
-                                    </div>
+                                        <div class="row statistic" style="border-bottom-style: solid ;border-color: goldenrod">
+                                            <label class="col-md-6" ></label>
+                                            <label class="col-md-5" >
+                                                Tổng số bình chọn: {{$sur['total_vote']}}
+                                            </label>
+                                        </div>
+                                        </div>
                                 </div>
 
                             @endforeach

@@ -47,12 +47,12 @@ class SessionController extends Controller
         if (Auth::check()){
             $role = User::query()->where('id', Auth::id())->get()[0]['role'];
         }
-        return view("session/index", compact('sessions', 'request', 'role'));
+        return view("session/session_list", compact('sessions', 'request', 'role'));
     }
 
     public function create()
     {
-        return view('session.create');
+        return view('session.create', compact('request'));
     }
 
     public function store(Request $request)
@@ -111,74 +111,6 @@ class SessionController extends Controller
         }
 
         return view("session/session_page", compact('session', 'creator_name', 'questions', 'role', 'request'));
-    }
-
-    public function showSurvey(Session $session, Request $request)
-    {
-        $creator_name = User::where('id',$session['creator_id'])->value('name');
-
-        $survey_query = Survey::where('session_id', $session['id']);
-
-        // lọc
-        if(isset($request['search']) && $request['search'] != "") {
-            $survey_query = $survey_query->where('content', 'like', '%' . str_replace(' ', '%', $request['search']) . '%');
-        }
-
-        // lấy vote của user trong các survey này
-        $survey_id = $survey_query->pluck('id')->toArray();
-
-        if (Auth::check()) {
-            $query = Vote::select('survey_id', 'vote')->where('user_id', Auth::id())->whereIn('survey_id', $survey_id);
-            $voted_survey = $query->pluck('survey_id')->toArray();
-            $votes = $query->pluck('vote')->toArray();
-            $user_votes = array_combine($voted_survey, $votes);
-            unset($query);
-        } else {
-            $voted_survey = [];
-            $user_votes = [];
-        }
-        unset($survey_id);
-        // end lấy vote
-        // lọc
-        if(isset($request['status'])){
-            if ($request['status'] == "checked") {
-                $survey_query = $survey_query->whereIn('id', $voted_survey);
-            }elseif ($request['status'] == "unchecked") {
-                $survey_query = $survey_query->whereNotIn('id', $voted_survey);
-            }
-        }
-
-        // lọc
-        if (isset($request['sort'])) {
-            if ($request['sort'] == "newest") {
-                $survey_query = $survey_query->orderBy('created_at', 'desc');
-            } else {
-                $survey_query = $survey_query->orderBy('created_at', 'asc');
-            }
-        }
-
-        $surveys = $survey_query->get();
-
-        // lấy option và gán checked cho n cái auth đã check
-        foreach ($surveys as $sur) {
-            if (in_array($sur['id'], $voted_survey)) {
-                $options = SurveyOption::where('survey_id', $sur['id'])->get();
-                foreach ($options as $opt) {
-                    if ($opt['option_num'] == $user_votes[$sur['id']])
-                        $opt['checked'] = true;
-                }
-                $sur_options[$sur['id']] = $options;
-            } else {
-                $sur_options[$sur['id']] = SurveyOption::where('survey_id', $sur['id'])->get();
-            }
-        }
-
-        $role = null;
-        if (Auth::check()){
-            $role = User::where('id', Auth::id())->get()[0]['role'];
-        }
-
-        return view("survey\survey_list", compact('session', 'creator_name','surveys', 'sur_options', 'role', 'request'));
     }
 
     public function edit(Session $session)

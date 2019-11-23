@@ -31,15 +31,15 @@ class checkSessionPassword
         if (isset($path_arr[2])) {
             $ses = Session::select('creator_id', 'password')->where('id', $path_arr[2])->get()[0];
             if (isset($ses['password']) && $ses['password'] != '') {
-                if (Auth::check() && !$this->checkAuthCurrentSession(Auth::id(), $path_arr[2])) {
-                    if (strval(Auth::id()) != $ses['creator_id'] ) {
+                if (Auth::check()){
+                    if (strval(Auth::id()) == $ses['creator_id'] || $this->checkAuthCurrentSession(Auth::id(), $path_arr[2])) {
+                        return $next($request);
+                    } else {
                         $session_id = $path_arr[2];
                         return redirect('session/' . $session_id . '/0/check_password');
-                    } else {
-                        return $next($request);
                     }
                 } else {
-                    redirect('\login'); // todo: charge sesson -> login
+                    return redirect('/login'); // todo: charge sesson -> login
                 }
             }
         }
@@ -75,8 +75,7 @@ class checkSessionPassword
             return $this->answer($arr, $request, $next);
         } elseif ($arr[1] == "comment"){
             return $this->comment($arr, $request, $next);
-        }
-
-        return $next($request);
+        } else
+            return $next($request);
     }
 }
