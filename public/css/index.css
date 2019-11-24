@@ -418,7 +418,7 @@ i.fas.fa-user {
 -webkit-border-radius:50%;
 height: 42px;
 left: 42px;
-}    
+}
 i.fa.fa-lock {
     position: absolute;
     top: 14%;
@@ -625,4 +625,24 @@ a.btn {
 .statistic>label {
     margin-top: 10px;
     margin-bottom: 0px;
+}
+.ul-login-register li{
+    float: left;
+    margin-left: 10px;
+
+}
+.col-md-12.row.row-header {
+    height: 65px;
+}
+
+ul.ul-login-register {
+    padding-top: 20px !important;
+}
+.col-md-2.col-login-reg {
+    padding-left: 55px;
+}
+ul.ul-login-register li a {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
 }

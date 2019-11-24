@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/session';
 
     /**
      * Create a new controller instance.
@@ -35,5 +37,30 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+    public function showLoginForm()
+    {
+        return view('login.login');
+    }
+    public function login(Request $request)
+    {
+        $remember = $request->remember;
+        $re = false;
+        if(isset($remember))
+        {
+            $re = true;
+        }
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password],$re)) {
+            // The user is active, not suspended, and exists.
+            return redirect()->route('home_ss');
+        }else{
+            return back()->withInput()->with('error',"Tài khoản hoặc mật khẩu không chính xác");
+        }
+    }
+    public function logout(){
+
+        Auth::logout();
+
+        return redirect()->route('home_ss');
     }
 }

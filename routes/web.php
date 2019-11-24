@@ -17,7 +17,9 @@ Route::get('/', function () {
 */
 Route::get('/', function () {
     return redirect('/session');
-});
+})->name('home_ss');
+
+//user
 
 
 Route::get('/listing/detail',function () {
@@ -65,3 +67,43 @@ Route::middleware(['checkSessionPassword'])->group(function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+/// auth
+// Authentication Routes...
+Route::get('login', [
+    'as' => 'login',
+    'uses' => 'Auth\LoginController@showLoginForm'
+]);
+Route::post('login', [
+    'as' => 'post_login',
+    'uses' => 'Auth\LoginController@login'
+]);
+Route::get('logout', [
+    'as' => 'logout',
+    'uses' => 'Auth\LoginController@logout'
+]);
+// Password Reset Routes...
+Route::post('password/email', [
+    'as' => 'password.email',
+    'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
+]);
+Route::get('password/reset', [
+    'as' => 'password.request',
+    'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
+]);
+Route::post('password/reset', [
+    'as' => 'password.update',
+    'uses' => 'Auth\ResetPasswordController@reset'
+]);
+Route::get('password/reset/{token}', [
+    'as' => 'password.reset',
+    'uses' => 'Auth\ResetPasswordController@showResetForm'
+]);
+// Registration Routes...
+Route::get('register', [
+    'as' => 'register',
+    'uses' => 'Auth\RegisterController@showRegistrationForm'
+]);
+Route::post('register', [
+    'as' => 'post_register',
+    'uses' => 'Auth\RegisterController@register'
+]);
