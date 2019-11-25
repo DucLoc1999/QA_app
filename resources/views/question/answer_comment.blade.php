@@ -79,7 +79,16 @@ function short_format_time($time){
                                                 </div>
                                             @endforeach
                                         @endif
+                                        @if($is_open)
 
+                                        <form action="{{URL::to('/comment')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="question_id" value="{{$question['id']}}">
+                                            <input type="hidden" name="session_id" value="{{$question['session_id']}}">
+                                            <input name="content" class="col-md-12 comment-input" type="text" style="width: 96%" required>
+                                            <i class="fas fa-paper-plane cursor-pointer" style="margin-left: 5px" onclick="this.parentElement.submit()"></i>
+                                        </form>
+                                        @endif
                                     </div>
                             </div>
 
@@ -88,7 +97,8 @@ function short_format_time($time){
                                 <div class="col-md-1">
 
                                 </div>
-                                <form class="col-md-10 add-answer" method="POST" action="{{URL::to('/answer')}}">
+                                @if($is_open)
+                                    <form class="col-md-10 add-answer" method="POST" action="{{URL::to('/answer')}}">
                                     <h6 style="margin-bottom: 10px">
                                         Thêm câu trả lời
                                     </h6>
@@ -98,7 +108,7 @@ function short_format_time($time){
                                     <input type="hidden" name="question_id" value="{{$question['id']}}">
                                     <div class="form-group row">
                                         <div class="col-md-12">
-                                            <textarea id="content" class="form-control" name="content" style="height: 120px"placeholder="" required autofocus></textarea>
+                                            <textarea id="content" class="form-control" name="content" style="height: 120px"placeholder="" required ></textarea>
                                         </div>
                                     </div>
 
@@ -110,6 +120,7 @@ function short_format_time($time){
                                         </div>
                                     </div>
                                 </form>
+                                @endif
                             </div>
 
                     </div>
@@ -131,9 +142,9 @@ function short_format_time($time){
 
 
 @stop
+@section('script')
 
 @if($role == "session_creator")
-    @section('script')
     <script>
         function chose_answer(ans_id) {
             var form = document.createElement("form");
@@ -143,8 +154,6 @@ function short_format_time($time){
             var i_answer_id = document.createElement("input");
             var token = '@csrf'.substring(42);
             token = token.substring(0, token.length - 2);
-
-            console.log(token);
 
             form.method = "POST";
             form.action = "{{URL::to('/answer')}}";
@@ -170,5 +179,6 @@ function short_format_time($time){
             form.submit();
         }
     </script>
-    @stop
 @endif
+
+@stop

@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Providers\RouteServiceProvider;
 use App\Session;
 use App\Survey;
 use App\SurveyOption;
 use App\SurveyStatistic;
 use App\User;
 use App\Vote;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function sessionIsOpen($session_id){
+        $close_time = Session::query()->where('id', $session_id)->get()[0]['close_time'];
+        $now = str_replace('T', ' ', Carbon::now());
+        return $now < $close_time;
+    }
+
     public function index(Request $request)
     {
     }
@@ -41,7 +42,7 @@ class SurveyController extends Controller
         $survey = Survey::create([
             'content' => $content,
             'asker_id' => Auth::id(),
-            'session_id' => 2,
+            'session_id' => $session_id,
         ]);
 
         foreach ($options as $num => $content){
@@ -55,7 +56,7 @@ class SurveyController extends Controller
         return redirect('session/'.$session_id.'/survey#survey_'.$survey['id']);
     }
 
-    function vote($session_id, $survey_vote){
+    function vote($survey_vote){
         foreach ($survey_vote as $survey_id => $option) {
             $query = Vote::where('survey_id', $survey_id)
                 ->where('user_id', Auth::id());
@@ -78,6 +79,19 @@ class SurveyController extends Controller
         if (!Auth::check()) {
             return redirect('login');
         }
+
+        $request->validate([
+            'session_id' => 'required|max:10',
+            ]);
+
+        if (!$this->sessionIsOpen($request['session_id']))
+            return back();
+
+        $close_time = Session::query()->where('id', $request['session_id'])->get()[0]['close_time'];
+        $now = str_replace('T', ' ', Carbon::now());
+        if ($now < $close_time)
+            return back();
+
         if(isset($request['action']) && $request['action'] == 'vote'){
             $survey_vote = [];
             foreach ($request->except('_token') as $key => $value){
@@ -173,7 +187,11 @@ class SurveyController extends Controller
             $role = User::where('id', Auth::id())->get()[0]['role'];
         }
 
-        return view("survey\survey_list", compact('session', 'creator_name','surveys', 'sur_options', 'role', 'request'));
+        $is_open = false;
+        if ($this->sessionIsOpen($session['id']))
+            $is_open = true;
+
+        return view("survey\survey_list", compact('session', 'creator_name','surveys', 'sur_options', 'role', 'request', 'is_open'));
     }
 
     public function showStatistic(Session $session, Request $request)
@@ -211,12 +229,16 @@ class SurveyController extends Controller
             $role = User::where('id', Auth::id())->get()[0]['role'];
         }
 
-        return view("survey\survey_statistic", compact('session', 'creator_name','surveys', 'sur_options', 'role', 'request'));
+        $is_open = false;
+        if ($this->sessionIsOpen($session['id']))
+            $is_open = true;
+
+        return view("survey\survey_statistic", compact('session', 'creator_name','surveys', 'sur_options', 'role', 'request', 'is_open'));
     }
 
     public function show(Survey $survey)
     {
-        //
+        return back();
     }
 
     /**

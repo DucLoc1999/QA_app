@@ -38,7 +38,6 @@ Route::resource('session', 'SessionController');
 Route::resource('question', 'QuestionController');
 Route::resource('survey', 'SurveyController');
 
-Route::get('session/create', 'SessionController@create');
 Route::post('session', 'SessionController@store');
 Route::get('session/{session}/edit', 'SessionController@edit');
 
@@ -48,12 +47,13 @@ Route::get('session/{session_id}/check_password', function ( $session_id, \Illum
 Route::post('session/check_password', 'SessionController@checkPassword');
 
 
-Route::get('question/create', 'QuestionController@create');
 Route::post('question', 'QuestionController@store');
 Route::get('question/{question}/edit', 'QuestionController@edit');
 
 
 Route::middleware(['checkSessionPassword'])->group(function () {
+    Route::get('question/create', 'QuestionController@create');
+    Route::get('session/create', 'SessionController@create');
     Route::get('session/{session}', 'SessionController@show');
     Route::get('session/{session}/survey', 'SurveyController@showSurvey');
     Route::get('session/{session}/survey_statistic', 'SurveyController@showStatistic');

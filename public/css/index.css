@@ -530,13 +530,13 @@ a.button {
 }
 
 .closed-now {
-    color: #ff3a6d;
-    font-weight: 400;
+    color: #ff3a6d  !important;
+    font-weight: 400 !important;
 }
 
 .open-now {
-    color: #46cd38;
-    font-weight: 400;
+    color: #46cd38 !important;
+    font-weight: 400 !important;
 }
 form .custom-select {
     max-width: 150px;
@@ -693,4 +693,10 @@ ul.info-user li {
 }
 .col-md-12.col-sm-12.row.box-user {
     margin-top: 50px;
+}
+
+.comment-input {
+    border: none;
+    background: #e5f2f4;
+    border-bottom: 1px solid;
 }

@@ -17,19 +17,22 @@ function format_time($time){
     <div class="body-qa">
         <div class="container-fluid">
             <div class="row">
-                <div class="ask-question col-md-2">
+                <div class="detail-state col-md-2">
                     <div class="btn-ask-question row" >
                         <a class="btn btn-info" href="{{URL::to('/session/'.$session['id'])}}">
                             <i style="margin-right: 5px" class="far fa-question-circle"></i>
                             Câu hỏi
                         </a>
                     </div>
+                    @if($is_open)
                     <div class="btn-ask-question row">
                         <a class="btn btn-primary" href="{{URL::to('/survey/create?session_id='.$session['id'])}}">
                             <i style="margin-right: 5px" class="far fa-plus-square"></i>
                             Thêm khảo sát
                         </a>
                     </div>
+                    @endif
+
                     @if(count($surveys) > 0)
                         <div class="btn-ask-question row">
                             <a class="btn btn-secondary" href="{{URL::to('/session/'.$session['id'].'/survey_statistic')}}">
@@ -106,9 +109,11 @@ function format_time($time){
                                 </div>
 
                             @endforeach
+                            @if($is_open)
                             <div style="height: 100px; text-align: center; padding: 25px">
                                 <button class="btn btn-success" style="display: inline-block;"> Gửi bình chọn</button>
                             </div>
+                            @endif
                         </form>
                     </div>
                 </div>

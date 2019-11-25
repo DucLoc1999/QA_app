@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Question;
 use App\QuestionInfo;
 use App\Session;
 use App\SessionInfo;
-use App\Survey;
-use App\SurveyOption;
 use App\User;
-use App\Vote;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class SessionController extends Controller
 {
+    function sessionIsOpen($session_id){
+        $close_time = Session::query()->where('id', $session_id)->get()[0]['close_time'];
+        $now = str_replace('T', ' ', Carbon::now());
+        return $now < $close_time;
+    }
 
     public function index(Request $request){
         $query = SessionInfo::query();
@@ -113,7 +114,11 @@ class SessionController extends Controller
             $role = User::where('id', Auth::id())->get()[0]['role'];
         }
 
-        return view("question/question_list", compact('session', 'creator_name', 'questions', 'role', 'request'));
+        $is_open = false;
+        if ($this->sessionIsOpen($session['id']))
+            $is_open = true;
+
+        return view("question/question_list", compact('session', 'creator_name', 'questions', 'role', 'request', 'is_open'));
     }
 
     public function edit(Session $session)
