@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use App\Answer;
 use App\Comment;
 use App\Question;
-use App\QuestionInfo;
 use App\Session;
-use App\Survey;
-use App\SurveyStatistic;
 use App\User;
-use Illuminate\Auth\Events\Login;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function Sodium\add;
 
 class QuestionController extends Controller
 {
+    function sessionIsOpen($session_id){
+        $close_time = Session::query()->where('id', $session_id)->get()[0]['close_time'];
+        $now = str_replace('T', ' ', Carbon::now());
+        return $now < $close_time;
+    }
 
     public function index(Request $request)
     {
@@ -41,13 +42,16 @@ class QuestionController extends Controller
             'session_id' => 'required|max:500',
         ]);
 
+        if (!$this->sessionIsOpen($request['session_id']))
+            return back();
+
 
         $quest = Question::create([
             'content'=>$request['content'],
             'asker_id'=> Auth::id(),
             'session_id'=>$request['session_id'],
         ]);
-        return redirect('question/'.$quest['id']);
+        return redirect('/session/'.$request['session_id'].'#question_'.$quest['id']);
     }
 
     public function show(Question $question, Request $request)
@@ -91,7 +95,11 @@ class QuestionController extends Controller
                 $role = "viewer";
         }
 
-        return view('question/answer_comment', compact('question','answers', 'comments', 'users_names', 'role'));
+        $is_open = false;
+        if ($this->sessionIsOpen($question['session_id']))
+            $is_open = true;
+
+        return view('question/answer_comment', compact('question','answers', 'comments', 'users_names', 'role', 'is_open'));
     }
 
     public function edit(Question $question)

@@ -25,12 +25,14 @@ function format_time($time){
                             Khảo sát
                         </a>
                     </div>
+                    @if($is_open)
                     <div class="btn-ask-question row">
                         <a class="btn btn-primary" href="{{URL::to('/question/create?session_id='.$session['id'])}}">
                             <i style="margin-right: 5px" class="far fa-plus-square"></i>
                             Thêm câu hỏi
                         </a>
                     </div>
+                    @endif
                 </div>
                 <div class="list-question col-md-8">
                     <div class="main-content row">
@@ -62,7 +64,7 @@ function format_time($time){
                                     <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
                                         <option value="oldest"> Cũ nhất </option>
                                         <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
-                                        <option value="concerned" {{(isset($request['sort']) && $request['sort'] == "concerned") ? "selected" : ""}}> Nhiều bình luận </option>
+                                        <option value="concerned" {{(isset($request['sort']) && $request['sort'] == "concerned") ? "selected" : ""}}> Được quan tâm </option>
                                     </select>
 
                                 </div>
@@ -78,7 +80,7 @@ function format_time($time){
                         @foreach($questions as $quest)
                             <?php $i++;?>
 
-                            <div id="{{$quest['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
+                            <div id="question_{{$quest['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
                                 <div class="col-md-12">
                                     <a style="display: block;margin-left: -5px;" href="{{URL::to('/question/'.$quest['id'])}}" >
                                         <div class="content-box">

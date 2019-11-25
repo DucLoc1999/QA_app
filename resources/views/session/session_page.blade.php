@@ -25,12 +25,15 @@ function format_time($time){
                             Khảo sát
                         </a>
                     </div>
+                    @if($is_open)
                     <div class="btn-ask-question row">
                         <a class="btn btn-primary" href="{{URL::to('/question/create?session_id='.$session['id'])}}">
                             <i style="margin-right: 5px" class="far fa-plus-square"></i>
                             Thêm câu hỏi
                         </a>
                     </div>
+                    @endif
+
                 </div>
                 <div class="list-question col-md-8">
                     <div class="main-content row">

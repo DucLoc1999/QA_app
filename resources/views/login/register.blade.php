@@ -1,4 +1,4 @@
-@extends('layout.header_bar')
+@extends('layout.head_new')
 @section('css')
 <style type="text/css">
 
@@ -61,7 +61,8 @@
     }
 </style>
 @stop
-@section('login-reg')
+@section('body')
+    @include('layout.header_bar')
     <div class="login-form">
         <form action="{{route('post_register')}}" method="post">
             @csrf
@@ -90,6 +91,7 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Đăng ký</button>
             </div>
+            <p class="text-center small">Bạn đã có tài khoản? <a href="{{URL::to('/login')}}"> Đăng nhập ở đây!</a></p>
         </form>
 
     </div>

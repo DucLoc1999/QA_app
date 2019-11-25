@@ -9,9 +9,6 @@ function format_time($time){
 }
 ?>
 @extends('layout.head_new')
-@section('title')
-    Danh sách phiên hỏi đáp
-    @stop
 @section('body')
 
 @include('layout.header_bar')
@@ -83,7 +80,7 @@ function format_time($time){
                                <div class="user-post row">
                                    @if(!is_null($ses['close_time']) && time() >= strtotime($ses['close_time']))
                                        <p class="closed-now"> ĐÃ ĐÓNG</p>
-                                       <p>{{format_time($ses['close_time'])}}</p>
+                                       <p style="padding-top: 3px">{{format_time($ses['close_time'])}}</p>
                                    @else
                                        <p class="open-now"> ĐANG MỞ</p>
                                    @endif

@@ -24,12 +24,14 @@ function format_time($time){
                             Khảo sát
                         </a>
                     </div>
+                    @if($is_open)
                     <div class="btn-ask-question row">
                         <a class="btn btn-primary" href="{{URL::to('/survey/create?session_id='.$session['id'])}}">
                             <i style="margin-right: 5px" class="far fa-plus-square"></i>
                             Thêm khảo sát
                         </a>
                     </div>
+                    @endif
                 </div>
                 <div class="list-question col-md-8">
                     <div class="main-content row">
@@ -88,7 +90,7 @@ function format_time($time){
                                                 Số Lượt bình chọn: {{$so['total_vote']}}
                                             </label>
                                             <label class="col-md-2">
-                                                Tỷ lệ: {{round(100*$so['total_vote']/$sur['total_vote'], 1)}} %
+                                                Tỷ lệ: {{$sur['total_vote'] != 0? round(100*$so['total_vote']/$sur['total_vote'], 1): 0}} %
                                             </label><br>
                                             </div>
                                         @endforeach
@@ -102,9 +104,6 @@ function format_time($time){
                                 </div>
 
                             @endforeach
-                            <div style="height: 100px; text-align: center; padding: 25px">
-                                <button class="btn btn-success" style="display: inline-block;"> Gửi bình chọn</button>
-                            </div>
                         </form>
                     </div>
                 </div>
