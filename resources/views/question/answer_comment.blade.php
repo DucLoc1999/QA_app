@@ -41,6 +41,26 @@ function short_format_time($time){
                                 <i class="fas fa-door-open fa-2x"></i>
                             </a>
                         </div>
+
+                    </div>
+                    <div class="filter-question">
+
+                        <div class="row down-amount">
+                        <form class="row form-inline md-form form-sm" action="{{URL::to('/question/'.$question['id'])}}" method="GET" style="width: 100%; margin: 1px 0px 0px 0px">
+                            <div class="col-md-7 offset-4 form filter_form">
+                                <label>Xắp xếp theo: </label>
+                                <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
+                                    <option value="right"> Trả lời đúng </option>
+                                    <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
+                                    <option value="oldest" {{(isset($request['sort']) && $request['sort'] == "oldest") ? "selected" : ""}}> Cũ nhất </option>
+                                </select>
+
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-light" type="submit" > Lọc </button>
+                            </div>
+                        </form>
+                    </div>
                     </div>
                     <div class="list-box-question">
                         <?php $i = 0;?>

@@ -8,18 +8,25 @@ function format_time($time){
     return $str;
 }
 ?>
-@extends('layout.header_bar')
-@section('content')
-    <div class="container-fluid" style="padding-left: 40px">
+@extends('layout.head_new')
+@section('body')
+    @include('layout.header_bar')
+    <div class="container-fluid" style="padding-left: 40px; padding-bottom: 40px">
         <div class="col-md-12 col-sm-12 row box-user">
             <div class="col-md-4 col-sm-4 profile-user">
+                <div class="col-md-13 info-bar" >
+                    <h5><b>Thông tin cá nhân</b></h5>
+                </div>
                 <ul class="info-user">
                     <li><i style="margin-right: 5px" class="far fa-user"></i> {{$user[0]->name}}</li>
                     <li><i style="margin-right: 5px" class="far fa-envelope"></i> {{$user[0]->email}}</li>
-                    <li><i style="margin-right: 5px" class="far fa-question-circle"></i> Phiên hiện có: <span style="color: #ff8d22">{{$sessions->count()}}</span></li>
+                    <li><i style="margin-right: 5px" class="far fa-question-circle"></i> Phiên đã tạo: <span style="color: #ff8d22">{{$sessions->count()}}</span></li>
                 </ul>
             </div>
             <div class="col-md-8 col-sm-8 list-session-user">
+                <div class="col-md-13 info-bar" style="background: #3498db">
+                    <h5><b>Phiên sở hữu</b></h5>
+                </div>
                 <?php $i = 0;?>
                 @foreach($sessions as $ses)
                     <?php $i++;?>

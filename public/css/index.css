@@ -700,3 +700,12 @@ ul.info-user li {
     background: #e5f2f4;
     border-bottom: 1px solid;
 }
+
+.info-bar {
+    background: #3a80bb;
+    height: 50px;
+    margin: 0px -15px;
+    color: white;
+    text-align: center;
+    padding-top: 12px;
+}

@@ -62,10 +62,12 @@ class QuestionController extends Controller
                 $answers = $query->orderBy('created_at', 'desc')->get();
             }elseif ($request['sort'] == "oldest") {
                 $answers = $query->orderBy('created_at', 'asc')->get();
-            }elseif ($request['sort'] == "right") {
-                $answers = $query->orderBy('right_answer', 'desc')->get();
             }
         }
+
+        if(!isset($answers))  //default
+            $answers = $query->orderBy('right_answer', 'desc')->get();
+
 
         if (!isset($answers)){
             $answers = $query->get();
@@ -99,7 +101,7 @@ class QuestionController extends Controller
         if ($this->sessionIsOpen($question['session_id']))
             $is_open = true;
 
-        return view('question/answer_comment', compact('question','answers', 'comments', 'users_names', 'role', 'is_open'));
+        return view('question/answer_comment', compact('request', 'question','answers', 'comments', 'users_names', 'role', 'is_open'));
     }
 
     public function edit(Question $question)

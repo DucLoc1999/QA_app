@@ -20,7 +20,6 @@ Route::get('/', function () {
 })->name('home_ss');
 
 //user
-Route::get('/user/{id}','UserController@index')->name('index.user');
 
 Route::resource('session', 'SessionController');
 Route::resource('question', 'QuestionController');
@@ -34,6 +33,7 @@ Route::post('question', 'QuestionController@store');
 
 
 Route::middleware(['checkSessionPassword'])->group(function () {
+    Route::get('/user/{id}','UserController@index')->name('index.user');
     Route::get('session/{session_id}/check_password', function ( $session_id, \Illuminate\Http\Request $request){
         return view('check_session_password', compact('session_id', 'request'));
     });
