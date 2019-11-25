@@ -21,37 +21,23 @@ Route::get('/', function () {
 
 //user
 Route::get('/user/{id}','UserController@index')->name('index.user');
-Route::get('/listing/detail',function () {
-    return view('detail');
-});
-Route::get('/listing',function () {
-    return view('listing');
-});
-
-Route::get('/listing/index',function () {
-    return view('index');
-});
-
-Route::get('/listing/listing','SessionController@secsion_list');
 
 Route::resource('session', 'SessionController');
 Route::resource('question', 'QuestionController');
 Route::resource('survey', 'SurveyController');
 
 Route::post('session', 'SessionController@store');
-Route::get('session/{session}/edit', 'SessionController@edit');
 
-Route::get('session/{session_id}/check_password', function ( $session_id, \Illuminate\Http\Request $request){
-    return view('check_session_password', compact('session_id', 'request'));
-});
-Route::post('session/check_password', 'SessionController@checkPassword');
 
 
 Route::post('question', 'QuestionController@store');
-Route::get('question/{question}/edit', 'QuestionController@edit');
 
 
 Route::middleware(['checkSessionPassword'])->group(function () {
+    Route::get('session/{session_id}/check_password', function ( $session_id, \Illuminate\Http\Request $request){
+        return view('check_session_password', compact('session_id', 'request'));
+    });
+    Route::post('session/check_password', 'SessionController@checkPassword');
     Route::get('question/create', 'QuestionController@create');
     Route::get('session/create', 'SessionController@create');
     Route::get('session/{session}', 'SessionController@show');
