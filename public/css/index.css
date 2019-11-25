@@ -668,3 +668,29 @@ ul.ul-login-register li a {
 .cursor-pointer {
     cursor: pointer;
 }
+p.open-now {
+    padding: 5px;
+    background: #58a763;
+    color: #f2f2f5!important;
+}
+
+p.closed-now {
+    padding: 5px;
+    background: #de6f6f;
+    color: #fff !important;
+}
+.col-md-4.col-sm-4.profile-user {
+    background: #f5f5f5;
+}
+
+ul.info-user {
+    padding: 15px;
+    list-style: none;
+}
+
+ul.info-user li {
+    padding: 10px;
+}
+.col-md-12.col-sm-12.row.box-user {
+    margin-top: 50px;
+}

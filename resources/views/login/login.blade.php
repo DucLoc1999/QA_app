@@ -67,7 +67,7 @@
     <div class="login-form">
         <form action="{{route('post_login')}}" method="post">
             @csrf
-            <h2 class="text-center">Login</h2>
+            <h2 class="text-center">Đăng nhập</h2>
             @if (session('error'))
                 <div style="padding-bottom: 5px" class="alert alert-danger">
                     <p style="font-size: 12px">{{ session('error') }}</p>
@@ -77,15 +77,15 @@
                 <input type="email" class="form-control" name="email" placeholder="Email" required="required">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="required">
             </div>
             <div class="form-remember">
-                <input type="checkbox" name="remember"><span style="font-size: 11px">Remember</span>
+                <input type="checkbox" name="remember"><span style="font-size: 11px">Ghi nhớ</span>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Đăng nhập</button>
             </div>
         </form>
-        <p class="text-center small">Don't have an account? <a href="#">Sign up here!</a></p>
+        <p class="text-center small">Bạn chưa có tài khoản? <a href="{{route('register')}}">Đăng ký ở đây!</a></p>
     </div>
 @stop

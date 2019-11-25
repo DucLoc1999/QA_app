@@ -20,8 +20,7 @@ Route::get('/', function () {
 })->name('home_ss');
 
 //user
-
-
+Route::get('/user/{id}','UserController@index')->name('index.user');
 Route::get('/listing/detail',function () {
     return view('detail');
 });

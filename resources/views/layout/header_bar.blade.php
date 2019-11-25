@@ -82,7 +82,7 @@
                     <div class="dropdown">
                         <button class="dropbtn">{{\Illuminate\Support\Facades\Auth::user()->name}}</button>
                         <div class="dropdown-content">
-                            <a href="#">Profile user</a>
+                            <a href="{{route('index.user',\Illuminate\Support\Facades\Auth::id())}}">Profile user</a>
                             <a href="{{route('logout')}}">Log out</a>
                         </div>
                     </div>
@@ -92,6 +92,7 @@
         </div>
     </div>
 </div>
+@yield('content')
 @yield('login-reg')
 </body>
 </html>

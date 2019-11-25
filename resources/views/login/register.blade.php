@@ -65,7 +65,7 @@
     <div class="login-form">
         <form action="{{route('post_register')}}" method="post">
             @csrf
-            <h2 class="text-center">Register</h2>
+            <h2 class="text-center">Đăng ký</h2>
             @if ($errors->any())
                 <div class="alert-danger">
                     <ul style="list-style: none;padding: 0">
@@ -76,19 +76,19 @@
                 </div>
             @endif
             <div class="form-group has-error">
-                <input type="text" class="form-control" name="name" placeholder="Username" required="required">
+                <input type="text" class="form-control" name="name" placeholder="Tên tài khoản" required="required">
             </div>
             <div class="form-group has-error">
                 <input type="email" class="form-control" name="email" placeholder="Email" required="required">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="required">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" name="password_confirmation" placeholder="re-password" required="required">
+                <input type="password" class="form-control" name="password_confirmation" placeholder="Nhập lại mật khẩu" required="required">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Đăng ký</button>
             </div>
         </form>
 
