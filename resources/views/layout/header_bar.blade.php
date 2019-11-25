@@ -62,8 +62,7 @@
     <div class="container-fluid">
         <div class="col-md-12 row row-header">
             <div class="col-md-2 row">
-                <div class="logo">
-                    <!--img src="https://image.shutterstock.com/image-vector/questions-answers-qa-speech-bubbles-260nw-405919432.jpg" -->
+                <div class="logo" style="padding: 10px">
                     <img src="https://cfnapa.com/wp-content/uploads/2016/05/QA-Logo-Design-300.jpg" >
                 </div>
             </div>

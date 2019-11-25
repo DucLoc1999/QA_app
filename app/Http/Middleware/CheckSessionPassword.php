@@ -32,15 +32,18 @@ class checkSessionPassword
             $ses = Session::select('creator_id', 'password')->where('id', $path_arr[2])->get()[0];
             if (isset($ses['password']) && $ses['password'] != '') {
                 if (Auth::check()){
-                    if (strval(Auth::id()) == $ses['creator_id'] || $this->checkAuthCurrentSession(Auth::id(), $path_arr[2])) {
+                    if((strval(Auth::id() == $ses['creator_id'])
+                        || $this->checkAuthCurrentSession(Auth::id(), $path_arr[2]))
+                    ) {
                         return $next($request);
                     } else {
                         $session_id = $path_arr[2];
-                        return redirect('session/' . $session_id . '/0/check_password');
+                        return redirect('session/' . $session_id . '/check_password');
                     }
                 } else {
-                    return redirect('/login'); // todo: charge sesson -> login
+                    return redirect('/login');
                 }
+
             }
         }
         return $next($request);

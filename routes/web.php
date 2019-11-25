@@ -43,8 +43,8 @@ Route::get('session/create', 'SessionController@create');
 Route::post('session', 'SessionController@store');
 Route::get('session/{session}/edit', 'SessionController@edit');
 
-Route::get('session/{session_id}/{question_id}/check_password', function ($session_id, $question_id){
-    return view('check_session_password', compact('session_id', 'question_id'));
+Route::get('session/{session_id}/check_password', function ( $session_id, \Illuminate\Http\Request $request){
+    return view('check_session_password', compact('session_id', 'request'));
 });
 Route::post('session/check_password', 'SessionController@checkPassword');
 

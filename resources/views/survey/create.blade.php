@@ -4,6 +4,7 @@
     Tạo khảo sát
 @endsection
 @section('body')
+    @include('layout.header_bar')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -56,9 +57,9 @@
                                     <button type="submit" class="btn btn-primary">
                                         Tạo
                                     </button>
-                                    <a class="btn btn-danger" style="height: 38px;padding: 6px 12px;" href="{{URL::to('session/'.$session_id.'/survey')}}">
+                                    <button class="btn btn-danger" onclick="window.history.back();">
                                         Hủy
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </form>

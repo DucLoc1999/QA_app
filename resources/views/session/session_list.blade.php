@@ -18,7 +18,7 @@ function format_time($time){
    <div class="body-qa">
        <div class="container-fluid">
            <div class="row">
-               <div class="ask-question col-md-2">
+               <div class="detail-state col-md-2">
                    @if(isset($role) && $role == 'teacher')
                    <div class="btn-ask-question row">
                        <a class="btn btn-primary" href="{{URL::to('/session/create')}}">
@@ -49,11 +49,10 @@ function format_time($time){
                                            <option value="close" {{(isset($request['status']) &&$request['status'] == "close") ? "selected" : ""}}> Đã đóng </option>
                                        </select>
 
-                                       <label>xắp xếp theo: </label>
+                                       <label>Xắp xếp theo: </label>
                                        <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
                                            <option value="oldest"> Cũ nhất </option>
                                            <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
-                                           <option value="concerned" {{(isset($request['sort']) && $request['sort'] == "concerned") ? "selected" : ""}}> Nhiều bình luận </option>
                                        </select>
 
                            </div>
@@ -68,7 +67,7 @@ function format_time($time){
                        @foreach($sessions as $ses)
                                <?php $i++;?>
 
-                               <div id="{{$ses['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
+                               <div id="session_{{$ses['session_id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
                            <div class="col-md-12">
                                <a style="display: block;margin-left: -5px;" href="/session/{{$ses['session_id']}}" >
                                <div class="content-box">
@@ -98,7 +97,7 @@ function format_time($time){
                </div>
                <div class="col-md-2 detail-state">
                    <div class="total-question" style="text-align: center">
-                       <b>Số lượng phiên</b><br>
+                       <b>Số phiên hỏi đáp</b><br>
                        <strong>{{count($sessions)}}</strong>
                    </div>
                </div>
@@ -111,27 +110,3 @@ function format_time($time){
 
 @stop
 
-@section('script')
-    <script>
-        $(document).ready(function(){
-            $('.login-register').click(function () {
-                $('.register').removeClass('show-register');
-                $('.login').addClass('show-login');
-                $('.bg-cover').addClass('show-bg-cover');
-                $('body').addClass('stop-scrolling');
-            });
-            $('#sign-up-here').click(function () {
-                $('.login').removeClass('show-login');
-                $('.register').addClass('show-register');
-            });
-            $('#login-here').click(function () {
-                $('.login').addClass('show-login');
-                $('.register').removeClass('show-register');
-            });
-            $('.display').click(function () {
-                $('.bg-cover').removeClass('show-bg-cover');
-                $('body').removeClass('stop-scrolling');
-            })
-        });
-    </script>
-@endsection

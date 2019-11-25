@@ -52,7 +52,7 @@ class SessionController extends Controller
 
     public function create()
     {
-        return view('session.create', compact('request'));
+        return view('session.create');
     }
 
     public function store(Request $request)
@@ -71,15 +71,18 @@ class SessionController extends Controller
             'topic' => 'required|max:100',
             'password' => 'max:50',
         ]);
-
-        Session::create([
+        $close_time = '';
+        if (isset($request['close_time'])) {
+            $close_time = str_replace(' ', 'T', $request['close_time']);
+        }
+        $ses = Session::create([
                 'topic'=>$request['topic'],
                 'creator_id'=>Auth::id(),
                 'password'=>$request['password'],
-                'close_time'=>$request['close_time'],
+                'close_time'=>$close_time,
         ]);
 
-        return redirect('session?sort=newest');
+        return redirect('session/'.$ses['id']);
     }
 
     public function show(Session $session, Request $request)
@@ -110,7 +113,7 @@ class SessionController extends Controller
             $role = User::where('id', Auth::id())->get()[0]['role'];
         }
 
-        return view("session/session_page", compact('session', 'creator_name', 'questions', 'role', 'request'));
+        return view("question/question_list", compact('session', 'creator_name', 'questions', 'role', 'request'));
     }
 
     public function edit(Session $session)
@@ -129,38 +132,33 @@ class SessionController extends Controller
     }
 
     public function checkPassword(Request $request){
+        echo $request['password'];
         $request->validate([
             'session_id' => 'required|',
             'password' => 'required|max:50',
         ]);
 
         $ses = Session::where('id', $request['session_id'])->get();
+        echo $ses[0]['password'];
+
         if (count($ses) == 1)
             $session = $ses[0];
         else
             return back();
 
-        /*if (isset($request['question_id'])){
-            Question::where()->get();
-//todo: check question_id vs ssid
-        }*/
-
-        if (isset($session['password']) && $session['password'] != '') {
+        if (isset($session['password']) && $session['password'] == $request['password']) {
             if (Auth::check()) {
-                if (Auth::id() == $session['creator_id'] || $request['password'] == $session['password']){
-                    User::where('id', Auth::id())
-                        ->update([
-                            'current_session' => $request['session_id']
-                        ]);
-                    return redirect('session/'.$session['id']);
-                } else {
-                    return back();
-                }
+                User::where('id', Auth::id())
+                    ->update([
+                        'current_session' => $request['session_id']
+                    ]);
+                return redirect('session/'.$session['id']);
             } else {
-                redirect('\login'); // todo: charge sesson -> login
+                return redirect('/login');
+
             }
         } else {
-            return redirect('session/'.$session['id']);
+            return back()->withErrors(['Sai mật khẩu']);
         }
 
         return back();

@@ -6,10 +6,13 @@ use App\Answer;
 use App\Comment;
 use App\Question;
 use App\QuestionInfo;
+use App\Session;
 use App\Survey;
 use App\SurveyStatistic;
 use App\User;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use function Sodium\add;
 
 class QuestionController extends Controller
@@ -17,43 +20,34 @@ class QuestionController extends Controller
 
     public function index(Request $request)
     {
-        $query = QuestionInfo::query();
-
-        if(isset($request['search']) && $request['search'] != "") {
-            $query = $query->where('content', 'like', '%' . str_replace(' ', '%', $request['search']) . '%');
-        } else {
-            if (isset($request['sort'])) {
-                if ($request['sort'] == "newest") {
-                    $query = $query->orderBy('created_at', 'desc');
-                } else {
-                    $query = $query->orderBy('created_at', 'asc');
-
-                }
-            }
-        }
-
-        $questions = $query->get();
-        return view("question\question_list", compact('questions'));
+        return back();
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('question.create');
+        $request->validate([
+            'session_id' => 'required|max:10'
+        ]);
+        $session_id = $request['session_id'];
+        return view('question.create' , compact('session_id'));
     }
 
     public function store(Request $request)
     {
+        if (!Auth::check())
+            return redirect('login');
         $request->validate([
             'content' => 'required|max:100',
             'session_id' => 'required|max:500',
         ]);
-// check auth -> creator_id
+
+
         $quest = Question::create([
             'content'=>$request['content'],
-            'asker_id'=>$request['asker_id'],
+            'asker_id'=> Auth::id(),
             'session_id'=>$request['session_id'],
         ]);
-        return redirect('session/'.$request['session_id'].'?sort='.$quest['id']);
+        return redirect('question/'.$quest['id']);
     }
 
     public function show(Question $question, Request $request)
@@ -74,6 +68,7 @@ class QuestionController extends Controller
         }
 
         $users_id = $query->pluck('user_id')->toArray();
+        $users_id[] = $question['asker_id'];
 
         $comments = [];
         foreach ($answers as $ans){
@@ -81,10 +76,22 @@ class QuestionController extends Controller
             $users_id = array_merge($users_id, $query->pluck('user_id')->toArray());
             $comments[$ans['id']] = $query->get();
         }
+
         $users_id = array_unique($users_id);
         sort($users_id);
-        $users_name = array_combine($users_id, User::wherein('id', $users_id)->pluck('name')->toarray());
-        return view('question/answer_comment', compact('question','answers', 'comments', 'users_name'));
+        $users_names = array_combine($users_id, User::wherein('id', $users_id)->pluck('name')->toarray());
+
+        $role = null;
+
+        if (Auth::check()){
+            $creator = Session::query()->where('id', $question['session_id'])->get()[0]['creator_id'];
+            if ($creator == Auth::id())
+                $role = "session_creator";
+            else
+                $role = "viewer";
+        }
+
+        return view('question/answer_comment', compact('question','answers', 'comments', 'users_names', 'role'));
     }
 
     public function edit(Question $question)

@@ -18,7 +18,7 @@ function format_time($time){
     <div class="body-qa">
         <div class="container-fluid">
             <div class="row">
-                <div class="ask-question col-md-2">
+                <div class="detail-state col-md-2">
                     <div class="btn-ask-question row">
                         <a class="btn btn-info" href="{{URL::to('/session/'.$session['id'].'/survey')}}">
                             <i style="margin-right: 5px" class="far fa-list-alt"></i>
@@ -26,7 +26,7 @@ function format_time($time){
                         </a>
                     </div>
                     <div class="btn-ask-question row">
-                        <a class="btn btn-primary" href="{{URL::to('/question/create')}}">
+                        <a class="btn btn-primary" href="{{URL::to('/question/create?session_id='.$session['id'])}}">
                             <i style="margin-right: 5px" class="far fa-plus-square"></i>
                             Thêm câu hỏi
                         </a>
@@ -58,10 +58,11 @@ function format_time($time){
 
                                 </div>
                                 <div class="col-md-7 form filter_form">
-                                    <label>xắp xếp theo: </label>
+                                    <label>Xắp xếp theo: </label>
                                     <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
                                         <option value="oldest"> Cũ nhất </option>
                                         <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
+                                        <option value="concerned" {{(isset($request['sort']) && $request['sort'] == "concerned") ? "selected" : ""}}> Nhiều bình luận </option>
                                     </select>
 
                                 </div>
@@ -90,9 +91,6 @@ function format_time($time){
                                         <p>Thời gian: {{format_time($quest['created_at'])}}</p>
                                         <p>Số lời trả lời và bình luận: {{$quest['total_comment']}}</p>
                                     </div>
-                                    <div class="user-post row">
-                                        <p class="question"> CÂU HỎI </p>
-                                    </div>
                                 </div>
                             </div>
 
@@ -114,27 +112,3 @@ function format_time($time){
     </body>
 @stop
 
-@section('script')
-    <script>
-        $(document).ready(function(){
-            $('.login-register').click(function () {
-                $('.register').removeClass('show-register');
-                $('.login').addClass('show-login');
-                $('.bg-cover').addClass('show-bg-cover');
-                $('body').addClass('stop-scrolling');
-            });
-            $('#sign-up-here').click(function () {
-                $('.login').removeClass('show-login');
-                $('.register').addClass('show-register');
-            });
-            $('#login-here').click(function () {
-                $('.login').addClass('show-login');
-                $('.register').removeClass('show-register');
-            });
-            $('.display').click(function () {
-                $('.bg-cover').removeClass('show-bg-cover');
-                $('body').removeClass('stop-scrolling');
-            })
-        });
-    </script>
-@endsection

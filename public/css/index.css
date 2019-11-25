@@ -142,9 +142,10 @@ ul.state-question {
 
 .btn-ask-question.row {
     padding: 30px;
-    height: 117px;
+    padding-bottom: 0px;
+    height: 84px;
     box-sizing: border-box;
-    border-bottom: 1px solid #aab6ca;
+    /*border-bottom: 1px solid #aab6ca;*/
     color: #6F7D95;
 }
 
@@ -182,6 +183,7 @@ ul.state-question {
 }
 .user-post.row p {
     margin: 10px;
+    color: #6F7D95;
 }
 ul.question-tag {
     list-style: none;
@@ -580,7 +582,7 @@ input[type="radio"], input[type="checkbox"] {
     color: #6F7D95;
 }
 h3 {
-    margin: unset;
+    margin-bottom: 5px;
     height: 34px;
 }
 
@@ -644,5 +646,25 @@ ul.ul-login-register {
 ul.ul-login-register li a {
     color: #fff;
     text-decoration: none;
+    cursor: pointer;
+}
+.info {
+    color: #6F7D95;
+}
+
+.comment {
+    border-top: 1px solid gray ;
+}
+
+.answer-space {
+    padding-left: 35px;
+    color: gray;
+}
+
+.answer-space>.fa-check-square {
+    color: green;
+}
+
+.cursor-pointer {
     cursor: pointer;
 }

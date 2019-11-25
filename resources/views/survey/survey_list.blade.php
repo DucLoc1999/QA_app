@@ -114,7 +114,7 @@ function format_time($time){
                 </div>
                 <div class="col-md-2 detail-state">
                     <div class="total-question" style="text-align: center">
-                        <b>Số lượng khảo sát</b><br>
+                        <b>Số khảo sát</b><br>
                         <strong>{{count($surveys)}}</strong>
                     </div>
                 </div>
@@ -126,27 +126,3 @@ function format_time($time){
 
 @stop
 
-@section('script')
-    <script>
-        $(document).ready(function(){
-            $('.login-register').click(function () {
-                $('.register').removeClass('show-register');
-                $('.login').addClass('show-login');
-                $('.bg-cover').addClass('show-bg-cover');
-                $('body').addClass('stop-scrolling');
-            });
-            $('#sign-up-here').click(function () {
-                $('.login').removeClass('show-login');
-                $('.register').addClass('show-register');
-            });
-            $('#login-here').click(function () {
-                $('.login').addClass('show-login');
-                $('.register').removeClass('show-register');
-            });
-            $('.display').click(function () {
-                $('.bg-cover').removeClass('show-bg-cover');
-                $('body').removeClass('stop-scrolling');
-            })
-        });
-    </script>
-@endsection

@@ -12,7 +12,7 @@ class QuestionInfo extends Model
     protected $table = 'question_info';
 /*
 
-quest_id
+id
 session_id
 content
 last_action
