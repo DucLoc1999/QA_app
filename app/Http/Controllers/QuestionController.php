@@ -30,6 +30,10 @@ class QuestionController extends Controller
             'session_id' => 'required|max:10'
         ]);
         $session_id = $request['session_id'];
+
+        if (!$this->sessionIsOpen($session_id))
+            return back();
+
         return view('question.create' , compact('session_id'));
     }
 

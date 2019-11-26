@@ -84,71 +84,6 @@
 
 <body>
 @yield('body')
-<div class="bg-cover">
-    <div class="display">
-
-    </div>
-    <div class="qa-login col-md-6">
-        <div class="col-md-12 login"><!-- col-md-9 Begin -->
-            <div class="row">
-                <div class="col-sm-6 img-login">
-                    <img class="img-responsive" src="{{URL::to('/')}}/img/signin-image.jpg"/></div>
-                <div class="col-sm-6">
-                    <h2 id="signup">Sign In</h2>
-                    <form method="post" action="#">
-                        <div class="email">
-                            <label><i class="fa fa-envelope"></i></label>
-                            <input type="email" placeholder="Your Email" name="email-login" id="email-login" required>
-                        </div>
-                        <div class="password">
-                            <label><i class="fa fa-lock"></i></label>
-                            <input type="password" placeholder="Password" name="password-login" id="password-login" required>
-                        </div>
-                        <div class="remember">
-                            <input type="checkbox" name="remember" id="remember"><label for="remember"><span>Remember me</span></label>
-                        </div>
-                        <input type="submit" value="Login">
-                    </form>
-                </div>
-            </div>
-            <div class="link-to-register">
-                <a id="sign-up-here" href="#">Sign up here</a>
-            </div>
-        </div>
-        <div class="col-md-12 register">
-            <div class="link-to-login">
-                <a id="login-here" href="#"><i style="margin-right: 5px" class="fas fa-arrow-left"></i> Sign in</a>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 register-form">
-                    <h2 id="signup-register">Sign Up</h2>
-                    <form action="#" method="post" enctype="multipart/form-data">
-                        <div class="username">
-                            <label><i class="fas fa-user"></i></label>
-                            <input type="text" placeholder="Your Name" name="name" id="name">
-                        </div>
-                        <div class="email">
-                            <label><i class="fa fa-envelope"></i></label>
-                            <input type="email" placeholder="Your Email" name="email-register" id="email-register">
-                        </div>
-                        <div class="password">
-                            <label><i class="fa fa-lock"></i></label>
-                            <input type="password" placeholder="Password" name="password-register" id="password-register">
-                        </div>
-                        <div class="password">
-                            <label><i class="fa fa-lock"></i></label>
-                            <input type="password" placeholder="Re-password" name="repassword-register" id="repassword-register">
-                        </div>
-                        <input type="submit" value="Register">
-                    </form>
-                </div>
-                <div class="col-sm-6 register-img">
-                    <img class="img-responsive" src="{{URL::to('/')}}/img/signup-image.jpg">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- js -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -179,6 +114,7 @@
     });
 </script>
 
-    @yield('script')
+
+@yield('script')
 </body>
 </html>

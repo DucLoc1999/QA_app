@@ -63,9 +63,15 @@ function short_format_time($time){
                     </div>
                     </div>
                     <div class="list-box-question">
-                        <?php $i = 0;?>
+                        <?php
+                        $i = 0;
+                        $total_comment = 0;
+                        ?>
                         @foreach($answers as $ans)
-                            <?php $i++;?>
+                            <?php
+                                $i++;
+                                $total_comment += count($comments[$ans['id']]);
+                            ?>
 
                             <div id="answer_{{$ans['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
                                     <div class="col-md-1 answer-space">
@@ -103,7 +109,7 @@ function short_format_time($time){
 
                                         <form action="{{URL::to('/comment')}}" method="post">
                                             @csrf
-                                            <input type="hidden" name="question_id" value="{{$question['id']}}">
+                                            <input type="hidden" name="answer_id" value="{{$ans['id']}}">
                                             <input type="hidden" name="session_id" value="{{$question['session_id']}}">
                                             <input name="content" class="col-md-12 comment-input" type="text" style="width: 96%" required>
                                             <i class="fas fa-paper-plane cursor-pointer" style="margin-left: 5px" onclick="this.parentElement.submit()"></i>
@@ -152,7 +158,7 @@ function short_format_time($time){
                     </div>
                     <div class="total-question" style="text-align: center">
                         <b>Số bình luận</b><br>
-                        <strong>{{count($answers)}}</strong>
+                        <strong>{{$total_comment}}</strong>
                     </div>
                 </div>
 
