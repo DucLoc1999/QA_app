@@ -20,18 +20,23 @@ class SessionController extends Controller
 
     public function index(Request $request){
         $query = SessionInfo::query();
+
+        if(isset($request['search']) && $request['search'] != "") {
+            $query = $query->where('topic', 'like', '%'.str_replace(' ', '%', $request['search']).'%');
+
+        }
+
         if(isset($request['status'])){
+            $now = str_replace(' ', 'T', Carbon::now());
             if ($request['status'] == "close") {
-                $query = $query->where('close_time', '>','CURRENT_TIMESTAMP');
+                $query = $query->where('close_time', '<=',$now);
             }elseif ($request['status'] == "open") {
-                $query = $query->where('close_time', '<=','CURRENT_TIMESTAMP')
+                $query = $query->where('close_time', '>',$now)
                     ->orWhereNull('close_time');
                 ;
             }
         }
-        if(isset($request['search']) && $request['search'] != "") {
-            $query = $query->where('topic', 'like', '%' . str_replace(' ', '%', $request['search']) . '%');
-        }
+
         if (isset($request['sort'])) {
             if ($request['sort'] == "concerned") {
                 $query = $query->orderBy('quest_num', 'desc');
@@ -74,8 +79,11 @@ class SessionController extends Controller
         ]);
         $close_time = '';
         if (isset($request['close_time'])) {
+            if($request['close_time'] <= Carbon::now())
+                return back();
             $close_time = str_replace(' ', 'T', $request['close_time']);
         }
+
         $ses = Session::create([
                 'topic'=>$request['topic'],
                 'creator_id'=>Auth::id(),

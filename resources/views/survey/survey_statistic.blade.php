@@ -48,27 +48,7 @@ function format_time($time){
                     </div>
                     <div class="filter-question">
                         <div class="row up-filter">
-                            <h3>Danh sách khảo sát</h3>
-                        </div>
-                        <div class="row down-amount">
-                            <form class="row form-inline md-form form-sm" action="{{URL::to('/session/'.$session['id'].'/survey')}}" method="GET" style="width: 100%; margin: 1px 0px 0px 0px">
-                                <div class="col-md-4 form search-form">
-                                    <i class="fas fa-search" style="display: inline; margin-right: 10px"></i>
-                                    <input name="search" class="form-control form-control-sm" style="width: 75%; height: 38px" type="text" placeholder="Tìm kiếm">
-                                </div>
-                                <div class="col-md-7 form filter_form">
-
-                                    <label>xắp xếp theo: </label>
-                                    <select name="sort" class="custom-select mb-2 mr-sm-2 mb-sm-0">
-                                        <option value="oldest"> Cũ nhất </option>
-                                        <option value="newest" {{(isset($request['sort']) && $request['sort'] == "newest") ? "selected" : ""}}> Mới nhất </option>
-                                    </select>
-
-                                </div>
-                                <div class="col-md-1">
-                                    <button class="btn btn-light" type="submit" > Lọc </button>
-                                </div>
-                            </form>
+                            <h3>Thông kê khảo sát</h3>
                         </div>
 
                     </div>

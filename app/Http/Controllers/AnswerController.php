@@ -61,10 +61,11 @@ class AnswerController extends Controller
     }
 
     function postCheck(Request $request){
-
         $request->validate([
             'question_id' => 'required',
         ]);
+
+
 
         $session_id = Question::query()->where('id', $request['question_id'])->get()[0]['session_id'];
         if (!$this->sessionIsOpen($session_id))

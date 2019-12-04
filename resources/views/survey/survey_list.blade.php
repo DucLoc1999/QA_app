@@ -91,7 +91,7 @@ function format_time($time){
                         <form action="{{URL::to('/survey')}}" method="POST">
                             @csrf
                             <input type="hidden" name="action" value="vote">
-                            <input type="hidden" name="session_id" value="{{$session['id']}}}">
+                            <input type="hidden" name="session_id" value="{{$session['id']}}">
                             <?php $i = 0;?>
                             @foreach($surveys as $sur)
                                 <?php $i++;?>

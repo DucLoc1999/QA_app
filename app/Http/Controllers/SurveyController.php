@@ -76,6 +76,7 @@ class SurveyController extends Controller
 
     public function store(Request $request)
     {
+
         if (!Auth::check()) {
             return redirect('login');
         }
@@ -87,10 +88,6 @@ class SurveyController extends Controller
         if (!$this->sessionIsOpen($request['session_id']))
             return back();
 
-        $close_time = Session::query()->where('id', $request['session_id'])->get()[0]['close_time'];
-        $now = str_replace('T', ' ', Carbon::now());
-        if ($now < $close_time)
-            return back();
 
         if(isset($request['action']) && $request['action'] == 'vote'){
             $survey_vote = [];
@@ -100,7 +97,7 @@ class SurveyController extends Controller
                     $survey_vote[$array[1]] = $value;
                 }
             }
-            return $this->vote($request['session_id'], $survey_vote);
+            return $this->vote($survey_vote);
         } elseif (isset($request['action']) && $request['action'] == 'create') {
             $request->validate([
                 'session_id' => 'required|max:10',
@@ -112,7 +109,8 @@ class SurveyController extends Controller
             foreach ($request->except('_token') as $key => $value){
                 if (preg_match('/^option_\d+/', $key) == 1){
                     $array = preg_split('/_/', $key);
-                    $options[$array[1]] = $value;
+                    if (isset($value) && $value != '')
+                        $options[$array[1]] = $value;
                 }
             }
 

@@ -11,7 +11,7 @@ function format_time($time){
 @extends('layout.head_new')
 @section('body')
     @include('layout.header_bar')
-    <div class="container-fluid" style="padding-left: 40px; padding-bottom: 40px">
+    <div class="container-fluid" style="padding-left: 40px; padding-bottom: 50px">
         <div class="col-md-12 col-sm-12 row box-user">
             <div class="col-md-4 col-sm-4 profile-user">
                 <div class="col-md-13 info-bar" >

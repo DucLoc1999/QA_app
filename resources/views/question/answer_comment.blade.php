@@ -76,7 +76,7 @@ function short_format_time($time){
                             <div id="answer_{{$ans['id']}}" class="box-question row {{$i%2!=0?"class-while":""}}">
                                     <div class="col-md-1 answer-space">
 
-                                        @if($role == "session_creator")
+                                        @if($role == "session_creator" && $is_open)
                                             @if($ans['right_answer'] == 1)
                                                 <i class="far fa-check-square fa-2x cursor-pointer" onclick="chose_answer({{$ans['id']}})"></i>
                                             @else

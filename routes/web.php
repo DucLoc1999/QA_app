@@ -31,15 +31,15 @@ Route::post('session', 'SessionController@store');
 
 Route::post('question', 'QuestionController@store');
 
+Route::get('session/{session_id}/check_password', function ( $session_id){
+    return view('check_session_password', compact('session_id'));
+});
+Route::post('session/check_password', 'SessionController@checkPassword');
+Route::get('session/create', 'SessionController@create');
 
 Route::middleware(['checkSessionPassword'])->group(function () {
     Route::get('/user/{id}','UserController@index')->name('index.user');
-    Route::get('session/{session_id}/check_password', function ( $session_id, \Illuminate\Http\Request $request){
-        return view('check_session_password', compact('session_id', 'request'));
-    });
-    Route::post('session/check_password', 'SessionController@checkPassword');
     Route::get('question/create', 'QuestionController@create');
-    Route::get('session/create', 'SessionController@create');
     Route::get('session/{session}', 'SessionController@show');
     Route::get('session/{session}/survey', 'SurveyController@showSurvey');
     Route::get('session/{session}/survey_statistic', 'SurveyController@showStatistic');
